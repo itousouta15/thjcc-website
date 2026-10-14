@@ -1,0 +1,20 @@
+:root {
+  --color-background: #1a1b1b;
+  --color-foreground: #f9f5ef;
+  --color-ink: #101312;
+  --color-white: #fff;
+  --color-muted: rgb(255 255 255 / 80%);
+  --color-card-border: rgb(249 245 239 / 20%);
+  --color-social-border: rgb(249 245 239 / 10%);
+  --font-body: var(--font-line-seed), sans-serif;
+  --font-copy: var(--font-line-seed-otf), var(--font-body);
+  --font-display: var(--font-asul), serif;
+  --font-edition: var(--font-bitcount), monospace;
+  --content-width: 1240px;
+  --page-gutter: 40px;
+  --radius-pill: 9999px;
+  --radius-card-small: 14px;
+  --radius-card-large: 50px;
+  --space-section-top: 50px;
+  --space-section-bottom: 40px;
+}
