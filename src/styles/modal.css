@@ -1,0 +1,196 @@
+.organization-card-trigger {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.organization-card-trigger:focus-visible {
+  outline-offset: -7px;
+}
+
+.organization-card {
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.organization-card:hover,
+.organization-card:focus-within {
+  border-color: rgb(249 245 239 / 50%);
+  box-shadow: inset 0 1px 0 rgb(249 245 239 / 8%);
+}
+
+html:has(.organization-modal[open]) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+.organization-modal {
+  width: min(640px, calc(100vw - 32px));
+  max-height: min(86dvh, 840px);
+  padding: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid rgb(249 245 239 / 24%);
+  border-radius: 28px;
+  color: var(--color-foreground);
+  background: var(--color-background);
+}
+
+.organization-modal[open] {
+  animation: organization-modal-enter 180ms ease-out;
+}
+
+.organization-modal::backdrop {
+  background: rgb(0 0 0 / 68%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.organization-modal-panel {
+  position: relative;
+  padding: 36px;
+}
+
+.organization-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-card-border);
+  border-radius: 50%;
+  color: var(--color-foreground);
+  background: transparent;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.organization-modal-close:hover {
+  background: rgb(249 245 239 / 8%);
+}
+
+.organization-modal-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  padding: 12px 24px;
+  margin-bottom: 24px;
+}
+
+.organization-modal-logo .organization-logo {
+  position: relative;
+  top: auto;
+  left: auto;
+  flex-shrink: 0;
+  max-width: 100%;
+  transform: none;
+}
+
+.organization-modal-logo .organization-logo--scint img,
+.organization-modal-logo .organization-logo--ocf img {
+  width: 100%;
+  height: auto;
+}
+
+.organization-modal-category {
+  margin-bottom: 8px;
+  color: rgb(249 245 239 / 60%);
+  font-size: 13px;
+  line-height: 22px;
+  letter-spacing: 0.6px;
+}
+
+.organization-modal h2 {
+  font-size: clamp(23px, 4vw, 32px);
+  line-height: 1.5;
+}
+
+.organization-modal-copy {
+  display: grid;
+  gap: 14px;
+  margin-top: 20px;
+  color: rgb(249 245 239 / 85%);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.85;
+}
+
+.organization-modal-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.organization-modal-highlights li {
+  padding: 5px 12px;
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.organization-modal-website {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 20px;
+  margin-top: 28px;
+  border-top: 1px solid var(--color-card-border);
+  font-size: 16px;
+  line-height: 28px;
+}
+
+.organization-modal-website:hover {
+  text-decoration: underline;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes organization-modal-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .organization-modal-panel {
+    padding: 28px 22px;
+  }
+
+  .organization-modal-logo {
+    padding-inline: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .organization-modal[open] {
+    animation: none;
+  }
+}

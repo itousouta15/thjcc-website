@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 import { coorganizers, organizers, partners, type Organization } from "@/data/site";
+import { OrganizationModal } from "./OrganizationModal";
 
 function OrganizationLogo({ id }: { id: Organization["id"] }) {
   if (id === "ncse") {
@@ -24,13 +28,20 @@ function OrganizationLogo({ id }: { id: Organization["id"] }) {
   );
 }
 
-function OrganizationCards({ items, variant = "three" }: { items: Organization[]; variant?: "one" | "two" | "three" }) {
+function OrganizationCards({ items, variant = "three", onSelect }: {
+  items: Organization[];
+  variant?: "one" | "two" | "three";
+  onSelect: (organization: Organization) => void;
+}) {
   return (
     <ul className={`organization-grid organization-grid--${variant}`}>
       {items.map(item => (
         <li className={`organization-card organization-card--${item.corner} organization-card--${item.id}`} key={item.id}>
-          <OrganizationLogo id={item.id} />
-          <p className="organization-name">{item.name}</p>
+          <button className="organization-card-trigger" type="button" aria-haspopup="dialog"
+            aria-label={`詳細介紹：${item.name}`} onClick={() => onSelect(item)}>
+            <OrganizationLogo id={item.id} />
+            <span className="organization-name">{item.name}</span>
+          </button>
         </li>
       ))}
     </ul>
@@ -38,6 +49,7 @@ function OrganizationCards({ items, variant = "three" }: { items: Organization[]
 }
 
 export function PartnersSection() {
+  const [selected, setSelected] = useState<Organization | null>(null);
   return (
     <section className="content-section partners-section" id="partners" aria-labelledby="partners-title" data-node-id="77:549">
       <div className="section-inner">
@@ -47,19 +59,21 @@ export function PartnersSection() {
         </h2>
         <section className="organization-group" aria-labelledby="organizers-title">
           <h3 className="organization-heading" id="organizers-title"><span>主辦單位</span></h3>
-          <OrganizationCards items={organizers} />
+          <OrganizationCards items={organizers} onSelect={setSelected} />
         </section>
         <div className="support-groups">
           <section className="organization-group" aria-labelledby="coorganizers-title">
             <h3 className="organization-heading" id="coorganizers-title"><span>協辦單位</span></h3>
-            <OrganizationCards items={coorganizers} variant="two" />
+            <OrganizationCards items={coorganizers} variant="two" onSelect={setSelected} />
           </section>
           <section className="organization-group organization-group--partners" aria-labelledby="supporters-title">
             <h3 className="organization-heading" id="supporters-title"><span>合作單位</span></h3>
-            <OrganizationCards items={partners} variant="one" />
+            <OrganizationCards items={partners} variant="one" onSelect={setSelected} />
           </section>
         </div>
       </div>
+      <OrganizationModal organization={selected} logo={selected ? <OrganizationLogo id={selected.id} /> : null}
+        onClose={() => setSelected(null)} />
     </section>
   );
 }

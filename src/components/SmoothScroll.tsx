@@ -11,6 +11,7 @@ export function SmoothScroll() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let lenis: Lenis | null = null;
     let generation = 0;
+    let locked = false;
 
     // Load the same Lenis version and wheel parameters as itouSouta.me.
     const syncPreference = () => {
@@ -21,7 +22,14 @@ export function SmoothScroll() {
       void import("lenis").then(({ default: Lenis }) => {
         if (request !== generation) return;
         lenis = new Lenis(SCROLL_OPTIONS);
+        if (locked) lenis.stop();
       });
+    };
+
+    const onScrollLock = (event: Event) => {
+      locked = Boolean((event as CustomEvent<boolean>).detail);
+      if (locked) lenis?.stop();
+      else lenis?.start();
     };
 
     const onAnchorClick = (event: MouseEvent) => {
@@ -48,12 +56,14 @@ export function SmoothScroll() {
     desktop.addEventListener("change", syncPreference);
     reducedMotion.addEventListener("change", syncPreference);
     document.addEventListener("click", onAnchorClick);
+    window.addEventListener("thjcc:scroll-lock", onScrollLock);
     return () => {
       generation++;
       lenis?.destroy();
       desktop.removeEventListener("change", syncPreference);
       reducedMotion.removeEventListener("change", syncPreference);
       document.removeEventListener("click", onAnchorClick);
+      window.removeEventListener("thjcc:scroll-lock", onScrollLock);
     };
   }, []);
 

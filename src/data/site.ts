@@ -10,8 +10,8 @@ export const site = {
   englishName: "Taiwan High-school Joint Cybersecurity Competition",
   chineseName: "臺灣高中職聯合資安競賽",
   links: {
-    discord: null as string | null,
-    instagram: null as string | null,
+    discord: "https://dc.thjcc.org/",
+    instagram: "https://instagram.com/thjcc.tw",
     sponsorship: null as string | null,
     faq: null as string | null,
   },
@@ -30,7 +30,7 @@ export const aboutCopy =
 export const team = [
   { name: "PGpenguin72", role: "總召", image: "team-pgpenguin72.png", decoration: "left", largeRole: false },
   { name: "Denny", role: "出題組長", image: "team-denny.png", decoration: "denny", largeRole: false },
-  { name: "Justin", role: "網管組長", image: "team-placeholder.svg", decoration: null, largeRole: false },
+  { name: "Justin", role: "網管組長", image: "team-justin.png", decoration: "justin", largeRole: false },
   { name: "twcat0503", role: "文書組長", image: "team-twcat0503.png", decoration: "twcat", largeRole: true },
   { name: "itouSouta", role: "設計組長", image: "team-itousouta.png", decoration: "right", largeRole: true },
 ] as const;

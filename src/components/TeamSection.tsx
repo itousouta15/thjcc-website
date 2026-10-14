@@ -11,7 +11,7 @@ export function TeamSection() {
             <li className={`team-member${member.largeRole ? " team-member--large-role" : ""}`} key={member.name}>
               <div className="team-avatar">
                 <Image src={`/images/${member.image}`} width={200} height={200}
-                  alt={member.image === "team-placeholder.svg" ? "" : `${member.name} 的頭像`}
+                  alt={`${member.name} 的頭像`}
                   sizes="(max-width: 767px) 140px, 200px" />
                 {member.decoration && (
                   <Image className={`team-decoration team-decoration--${member.decoration}`}

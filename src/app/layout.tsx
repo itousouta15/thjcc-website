@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { AnimatedBackground } from "@/components/AnimatedBackground";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import "@/styles/tokens.css";
+import "@/styles/background.css";
 import "@/styles/home.css";
+import "@/styles/modal.css";
 
 const lineSeed = localFont({
   src: [
@@ -53,6 +56,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="zh-Hant-TW" className={`${lineSeed.variable} ${lineSeedOtf.variable} ${asul.variable} ${bitcount.variable}`}>
       <body>
+        <AnimatedBackground />
         <SmoothScroll />
         {children}
       </body>
