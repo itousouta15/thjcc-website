@@ -164,12 +164,6 @@
   font-size: 24px;
   line-height: 39px;
   letter-spacing: -0.24px;
-  transition: box-shadow 160ms ease, transform 160ms ease;
-}
-
-.primary-button:hover {
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), inset 0 -1px 0 rgb(249 245 239 / 30%), var(--glass-shadow);
-  transform: translateY(-2px);
 }
 
 .hero-actions .primary-button,
@@ -180,6 +174,7 @@
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 65%), inset 0 -1px 0 rgb(249 245 239 / 12%), var(--glass-shadow);
+  transition: box-shadow 220ms ease;
 }
 
 .hero-actions .primary-button::before,
@@ -188,6 +183,7 @@
   inset: 0;
   border: 1px solid rgb(249 245 239 / 30%);
   border-radius: inherit;
+  transition: border-color 220ms ease;
   pointer-events: none;
   content: "";
 }
@@ -196,10 +192,51 @@
 .hero-actions .social-link::after {
   position: absolute;
   inset: 0;
-  background: linear-gradient(125deg, transparent 20%, rgb(255 255 255 / 16%) 45%, transparent 65%);
+  background: linear-gradient(110deg, transparent 25%, rgb(255 255 255 / 38%) 48%, rgb(255 255 255 / 10%) 55%, transparent 75%);
   border-radius: inherit;
+  opacity: 0;
+  transform: translateX(-130%);
   pointer-events: none;
   content: "";
+}
+
+.hero-actions .primary-button:is(:hover, :focus-visible),
+.hero-actions .social-link:is(:hover, :focus-visible) {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), inset 0 -1px 0 rgb(249 245 239 / 30%), var(--glass-shadow);
+}
+
+.hero-actions .primary-button:is(:hover, :focus-visible)::before,
+.hero-actions .social-link:is(:hover, :focus-visible)::before {
+  border-color: rgb(249 245 239 / 60%);
+}
+
+.hero-actions .primary-button:is(:hover, :focus-visible)::after {
+  animation: hero-reflection-sweep 650ms ease-out;
+}
+
+.hero-actions .social-link:is(:hover, :focus-visible)::after {
+  animation: hero-reflection-sweep 850ms cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+@keyframes hero-reflection-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-130%);
+  }
+  15%, 65% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(130%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-actions .primary-button:is(:hover, :focus-visible)::after,
+  .hero-actions .social-link:is(:hover, :focus-visible)::after {
+    animation: none;
+  }
 }
 
 .social-links {
@@ -246,6 +283,12 @@
 .hero-art img {
   width: 100%;
   height: auto;
+}
+
+.hero-art[data-parallax="true"] img {
+  /* A tiny overscan keeps the rendered artwork flush with the right edge. */
+  transform: translate3d(var(--hero-parallax-x, 0px), var(--hero-parallax-y, 0px), 0) scale(1.015);
+  will-change: transform;
 }
 
 .content-section {

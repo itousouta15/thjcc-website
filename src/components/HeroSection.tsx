@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { site } from "@/data/site";
 import { SocialLinks } from "./SocialLinks";
+import { HeroArtwork } from "./HeroArtwork";
 
 export function HeroSection() {
   return (
@@ -22,9 +23,7 @@ export function HeroSection() {
           </div>
         </div>
       </div>
-      <div className="hero-art" aria-hidden="true" data-node-id="76:232">
-        <Image src="/images/hero-thjcc.png" alt="" width={603} height={547} priority sizes="(max-width: 767px) 390px, 603px" />
-      </div>
+      <HeroArtwork />
     </section>
   );
 }
