@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import "@/styles/tokens.css";
 import "@/styles/home.css";
@@ -50,7 +52,10 @@ export const viewport: Viewport = { themeColor: "#1A1B1B", colorScheme: "dark li
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-Hant-TW" className={`${lineSeed.variable} ${lineSeedOtf.variable} ${asul.variable} ${bitcount.variable}`}>
-      <body>{children}</body>
+      <body>
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

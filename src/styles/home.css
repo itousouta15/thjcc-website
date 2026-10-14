@@ -1,5 +1,34 @@
 .site-shell {
+  position: relative;
   padding-top: 20px;
+}
+
+.site-shell > main {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page-decoration {
+  position: absolute;
+  z-index: 0;
+  top: 470px;
+  left: -174px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 494.046px;
+  height: 371.691px;
+  pointer-events: none;
+}
+
+.page-decoration img {
+  width: 441.532px;
+  max-width: none;
+  height: 228.159px;
+  transform: rotate(-21.08deg);
 }
 
 .site-header {
@@ -7,6 +36,7 @@
   top: 0;
   z-index: 10;
   padding: 20px var(--page-gutter);
+  margin-bottom: 20px;
 }
 
 .navbar {
@@ -385,14 +415,26 @@
 }
 
 .team-decoration--left {
-  top: -27.67px;
-  left: 76.5px;
+  top: -7.846%;
+  left: 45.781%;
   transform: rotate(38.07deg);
 }
 
 .team-decoration--right {
-  top: -10.25px;
-  left: -53.85px;
+  top: -10.7025%;
+  left: -16.9185%;
+  transform: rotate(-31.33deg);
+}
+
+.team-decoration--denny {
+  top: -6.685%;
+  left: -20.4305%;
+  transform: rotate(-31.33deg);
+}
+
+.team-decoration--twcat {
+  top: -10.7025%;
+  left: -13.9145%;
   transform: rotate(-31.33deg);
 }
 
@@ -603,6 +645,7 @@
 }
 
 .site-footer {
+  margin-top: 20px;
   padding: 65px max(var(--page-gutter), calc((100% - 1120px) / 2));
   color: var(--color-ink);
   background: var(--color-foreground);
@@ -720,16 +763,6 @@
   .team-decoration {
     width: 72.27%;
     height: auto;
-  }
-
-  .team-decoration--left {
-    top: -13.83%;
-    left: 38.25%;
-  }
-
-  .team-decoration--right {
-    top: -5.125%;
-    left: -26.925%;
   }
 
   .organization-grid {
@@ -1128,9 +1161,6 @@
 
   .organization-card {
     height: 261px;
-  }
-
-  .organization-grid--three .organization-card {
     border-radius: var(--radius-card-large);
   }
 

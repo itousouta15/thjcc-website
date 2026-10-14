@@ -10,6 +10,10 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+html.lenis {
+  scroll-behavior: auto;
+}
+
 body {
   margin: 0;
   color: var(--color-foreground);

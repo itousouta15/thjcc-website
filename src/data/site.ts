@@ -19,8 +19,8 @@ export const site = {
 
 export const navigation: SiteLink[] = [
   { label: "賽事介紹", href: "#about" },
-  { label: "合作夥伴", href: "#partners" },
   { label: "團隊成員", href: "#team" },
+  { label: "合作夥伴", href: "#partners" },
   { label: "FAQ", href: site.links.faq },
 ];
 
@@ -29,9 +29,9 @@ export const aboutCopy =
 
 export const team = [
   { name: "PGpenguin72", role: "總召", image: "team-pgpenguin72.png", decoration: "left", largeRole: false },
-  { name: "Denny", role: "出題組長", image: "team-placeholder.svg", decoration: null, largeRole: false },
+  { name: "Denny", role: "出題組長", image: "team-denny.png", decoration: "denny", largeRole: false },
   { name: "Justin", role: "網管組長", image: "team-placeholder.svg", decoration: null, largeRole: false },
-  { name: "twcat0503", role: "文書組長", image: "team-placeholder.svg", decoration: null, largeRole: true },
+  { name: "twcat0503", role: "文書組長", image: "team-twcat0503.png", decoration: "twcat", largeRole: true },
   { name: "itouSouta", role: "設計組長", image: "team-itousouta.png", decoration: "right", largeRole: true },
 ] as const;
 

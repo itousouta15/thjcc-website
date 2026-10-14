@@ -15,7 +15,7 @@ export function TeamSection() {
                   sizes="(max-width: 767px) 140px, 200px" />
                 {member.decoration && (
                   <Image className={`team-decoration team-decoration--${member.decoration}`}
-                    src={`/images/team-decoration-${member.decoration}.svg`} alt="" width={145} height={68} />
+                    src={`/images/team-decoration-${member.decoration === "left" ? "left" : "right"}.svg`} alt="" width={145} height={68} />
                 )}
               </div>
               <div className="team-caption">

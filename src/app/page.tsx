@@ -17,6 +17,10 @@ export default function HomePage() {
         <PartnersSection />
       </main>
       <SiteFooter />
+      <div className="page-decoration" aria-hidden="true" data-node-id="2008:328">
+        <Image src="/images/lightning-decoration.svg" alt="" width={442} height={228} />
+      </div>
     </div>
   );
 }
+import Image from "next/image";

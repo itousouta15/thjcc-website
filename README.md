@@ -8,6 +8,7 @@
 - TypeScript、React 18
 - Plain CSS 與 CSS custom properties
 - 本機字型：LINE Seed TW、Asul、Bitcount Grid Single
+- Lenis 桌面慣性捲動，採用 itouSouta.me 的 `wheelMultiplier: 0.8`、`lerp: 0.1`
 
 ## 啟動
 
@@ -40,10 +41,12 @@ public/fonts/     字型與隨附授權文件
 
 [Figma Desktop Frame 76:224](https://www.figma.com/design/ZJd84NrEnUC8BhiN993LxM/THJCC--Copy-?node-id=76-224&m=dev)
 
-- 桌面基準：1440 × 3267.06 px，以實作時重新取得的最新設計為準。
-- 保留原稿字體、配色、區塊尺寸、不對稱卡片圓角及三位成員的灰色頭像。
+- 桌面基準：1440 × 3367.06 px，以實作時重新取得的最新設計為準。
+- 保留原稿字體、配色、區塊尺寸與桌面不對稱卡片圓角；手機版 Partners 全部卡片統一為 50px 圓角。
+- 已同步新增的 Denny、twcat0503 頭像與帽子、左側閃電及 20px 區塊間距，Justin 保留原稿灰色頭像。
 - Hero 的金屬效果使用 Figma 渲染圖搭配原向量輪廓保留外觀；素材是桌面稿可見範圍的裁切版本。
 - 尚未提供手機設計稿，RWD 是沿用桌面視覺的響應式延伸。
+- 手機（小於 768px）與「減少動態效果」模式使用原生捲動；桌面頁內導覽由 Lenis 處理，保留 Navbar 避讓間距。
 - LINE Seed TW 保留原稿 TTF／OTF 用法，所有字型隨附 OFL 授權文件。
 
 ## 待補連結
