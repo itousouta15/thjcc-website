@@ -117,7 +117,7 @@ export function HeroArtwork() {
         });
         const gap = Math.max(28, Math.min(44, window.innerWidth * 0.025));
         const left = Math.max(...textBounds) + gap;
-        const rightLimit = Math.min(stageBounds.right + 24, inner!.getBoundingClientRect().right + 100);
+        const rightLimit = Math.min(stageBounds.right + 96, inner!.getBoundingClientRect().right + 196);
         const width = Math.max(220, Math.min(675, rightLimit - left));
         element!.style.width = `${width}px`;
         element!.style.left = `${left - stageBounds.left}px`;
@@ -144,8 +144,8 @@ export function HeroArtwork() {
       const startRight = stageBounds.left + Number.parseFloat(style.left) + width;
 
       geometry = {
-        x: stageBounds.right - 12 - startRight,
-        y: targetBounds.top + window.scrollY + (targetBounds.height - height * scale) / 2 + 12 - startTop,
+        x: targetBounds.right - startRight,
+        y: targetBounds.top + window.scrollY + (targetBounds.height - height * scale) / 2 - startTop,
         scale,
         // Finish as the intro heading reaches the lower-middle of the viewport.
         endScroll: Math.max(320, titleBounds.top + window.scrollY + titleBounds.height / 2 - window.innerHeight * 0.6),

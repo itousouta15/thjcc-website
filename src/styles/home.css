@@ -319,7 +319,7 @@
 .hero-art {
   position: absolute;
   z-index: 0;
-  top: 60px;
+  top: 84px;
   right: 4px;
   width: 675px;
   height: auto;
@@ -844,7 +844,7 @@
   }
 
   .hero-art {
-    top: 84px;
+    top: 108px;
     width: 520px;
   }
 
