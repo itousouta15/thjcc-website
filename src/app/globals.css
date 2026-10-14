@@ -53,8 +53,9 @@ button, a {
   outline-offset: 6px;
 }
 
-section[id] {
-  scroll-margin-top: 28px;
+section[id],
+#main {
+  scroll-margin-top: var(--header-scroll-offset);
 }
 
 ::selection {

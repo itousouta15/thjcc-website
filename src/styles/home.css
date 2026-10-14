@@ -3,7 +3,8 @@
 }
 
 .site-header {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 10;
   padding: 20px var(--page-gutter);
 }
@@ -159,16 +160,46 @@
   padding: 15px 40px;
   border-radius: var(--radius-pill);
   color: #000;
-  background: rgb(249 245 239 / 90%);
+  background: linear-gradient(135deg, rgb(249 245 239 / 90%), rgb(249 245 239 / 68%) 60%, rgb(249 245 239 / 78%));
   font-size: 24px;
   line-height: 39px;
   letter-spacing: -0.24px;
-  transition: background 160ms ease, transform 160ms ease;
+  transition: box-shadow 160ms ease, transform 160ms ease;
 }
 
 .primary-button:hover {
-  background: var(--color-foreground);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), inset 0 -1px 0 rgb(249 245 239 / 30%), var(--glass-shadow);
   transform: translateY(-2px);
+}
+
+.hero-actions .primary-button,
+.hero-actions .social-link {
+  position: relative;
+  overflow: hidden;
+  background-clip: padding-box;
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 65%), inset 0 -1px 0 rgb(249 245 239 / 12%), var(--glass-shadow);
+}
+
+.hero-actions .primary-button::before,
+.hero-actions .social-link::before {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgb(249 245 239 / 30%);
+  border-radius: inherit;
+  pointer-events: none;
+  content: "";
+}
+
+.hero-actions .primary-button::after,
+.hero-actions .social-link::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, transparent 20%, rgb(255 255 255 / 16%) 45%, transparent 65%);
+  border-radius: inherit;
+  pointer-events: none;
+  content: "";
 }
 
 .social-links {
@@ -198,11 +229,15 @@
   height: 100%;
 }
 
+.hero-actions .social-link {
+  background: linear-gradient(135deg, rgb(249 245 239 / 12%), rgb(249 245 239 / 3%));
+}
+
 .hero-art {
   position: absolute;
   z-index: 0;
   top: 48px;
-  left: calc(50% + 117px);
+  right: 0;
   width: 603px;
   height: 547px;
   pointer-events: none;
@@ -612,10 +647,6 @@
     font-size: clamp(22px, 2.22vw, 32px);
   }
 
-  .hero-art {
-    left: 60%;
-  }
-
   .team-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 30px;
@@ -701,7 +732,6 @@
 
   .hero-art {
     top: 72px;
-    left: 65%;
     width: 520px;
   }
 
@@ -784,6 +814,7 @@
 @media (max-width: 767px) {
   :root {
     --page-gutter: 24px;
+    --header-scroll-offset: 128px;
     --space-section-top: 32px;
     --space-section-bottom: 32px;
   }
@@ -957,9 +988,7 @@
 
   .hero-art {
     top: auto;
-    right: -16px;
     bottom: 35px;
-    left: auto;
     width: min(510px, 88vw);
     height: auto;
   }

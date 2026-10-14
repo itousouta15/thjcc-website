@@ -12,6 +12,9 @@
   --font-edition: var(--font-bitcount), monospace;
   --content-width: 1240px;
   --page-gutter: 40px;
+  --header-scroll-offset: 160px;
+  --glass-blur: 16px;
+  --glass-shadow: 0 8px 24px rgb(0 0 0 / 12%);
   --radius-pill: 9999px;
   --radius-card-small: 14px;
   --radius-card-large: 50px;
