@@ -38,7 +38,7 @@ Make and Design by [itouSouta](https://github.com/itousouta15)
 
 | 路徑 | 內容來源 |
 | --- | --- |
-| `/about` | `src/data/site.ts` 的 `aboutParagraphs`、主辦社群名單與聯絡資訊 |
+| `/about` | `src/data/about.ts` 的完整介紹，以及 `src/data/site.ts` 的主辦社群名單與聯絡資訊 |
 | `/team` | `src/data/team.ts` 的分組、成員、自我介紹與社群連結 |
 | `/partners` | `src/data/site.ts` 的單位分類與 `src/data/organizationDetails.ts` 的完整介紹 |
 
@@ -90,6 +90,7 @@ npm run dev -- --port 3001
 | `npm run dev` | 啟動開發伺服器 |
 | `npm run typecheck` | 執行 `tsc --noEmit`，檢查 TypeScript 型別 |
 | `npm run lint` | 執行 `next lint`，檢查程式碼規則 |
+| `npm run icons:generate` | 從 `public/images/THJCC.webp` 重新產生 ICO 與裝置圖示 |
 | `npm run build` | 建立正式版產物，輸出至 `.next/` |
 | `npm start` | 啟動正式版伺服器，須先完成建置 |
 
@@ -131,6 +132,7 @@ thjcc-website/
 │   │   └── SiteFooter.tsx        # 頁尾
 │   ├── data/
 │   │   ├── site.ts               # 網站名稱、連結、文案、成員與單位
+│   │   ├── about.ts              # 關於 THJCC 的詳細介紹與社群說明
 │   │   ├── team.ts               # 成員、分組、職位與首頁精選設定
 │   │   └── organizationDetails.ts # 單位介紹、重點與官方網址
 │   └── styles/
@@ -224,6 +226,22 @@ thjcc-website/
 - 全站色彩、字型與間距優先修改 `src/styles/tokens.css`；各區塊樣式與響應式規則位於 `src/styles/home.css`。
 - 字型由 `src/app/layout.tsx` 的 `next/font/local` 載入，新增或更換時需同步設定路徑、字重與 CSS 變數。
 - 網頁標題、描述、圖示與主題色也在 `src/app/layout.tsx` 設定。
+
+### 網站圖示
+
+網站圖示由 `public/images/THJCC.webp` 製作，採深色背景，讓銀色主視覺在淺色與深色介面都能辨識。更新素材後執行：
+
+```sh
+npm run icons:generate
+```
+
+- `public/favicon.ico`：內含 16、24、32、48、64、96、128、256px 八種解析度與 32-bit 色彩。
+- `public/icons/favicon-*.png`：16、32、48、96px 瀏覽器 PNG 圖示。
+- `public/icons/apple-touch-icon.png`：180px Apple 圖示。
+- `public/icons/android-chrome-*.png`：192、512px 圖示，以及保留安全留白的 512px maskable 圖示。
+- `public/site.webmanifest`：裝置圖示與網站名稱設定。
+
+ICO 的所有尺寸均使用 32-bit DIB 格式，保留透明度與透明遮罩，方便 Windows 圖示讀取器使用。Apple 與 Android 圖示使用不透明背景；瀏覽器圖示使用透明圓角。圖示連結與 manifest 在 `src/app/layout.tsx` 的 metadata 設定。
 
 ## 設計與互動
 

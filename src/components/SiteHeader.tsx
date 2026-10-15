@@ -14,7 +14,9 @@ export function SiteHeader({ links = navigation, homeHref = "#top", currentPath 
         <Brand href={homeHref} />
         <nav className="desktop-navigation" aria-label="主導覽">
           {links.map(link => (
-            <ConfiguredLink key={link.label} href={link.href} current={currentPath === link.href}>{link.label}</ConfiguredLink>
+            <ConfiguredLink key={link.label} href={link.href} current={currentPath === link.href}>
+              <span className="nav-link-label">{link.label}</span>
+            </ConfiguredLink>
           ))}
         </nav>
         <MobileNavigation links={links} currentPath={currentPath} />

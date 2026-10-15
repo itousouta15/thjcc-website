@@ -46,7 +46,19 @@ const bitcount = localFont({
 export const metadata: Metadata = {
   title: "THJCC 4｜第四屆臺灣高中職聯合資安競賽",
   description: "THJCC CTF 臺灣高中職聯合資安競賽，由學生自主籌辦，推廣資訊安全教育，讓全臺學生互相學習、切磋與交流。",
-  icons: { icon: "/images/logo-thjcc-light.svg" },
+  applicationName: "THJCC",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", type: "image/x-icon", sizes: "16x16 24x24 32x32 48x48 64x64 96x96 128x128 256x256" },
+      { url: "/icons/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: "/icons/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/icons/favicon-48x48.png", type: "image/png", sizes: "48x48" },
+      { url: "/icons/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+  },
 };
 
 export const viewport: Viewport = { themeColor: "#1A1B1B", colorScheme: "dark light" };

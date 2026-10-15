@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { team } from "@/data/site";
 import { TeamMemberList } from "./TeamMemberList";
+import { SectionAction } from "./SectionAction";
 
 export function TeamSection() {
   return (
@@ -10,12 +10,11 @@ export function TeamSection() {
           <h2 className="section-title" id="team-title">籌備團隊</h2>
           <div className="team-section-actions">
             <span className="team-hat-achievement-slot" id="team-hat-achievement" />
-            <Link className="team-directory-link" href="/team">
-              查看完整團隊 <span aria-hidden="true">→</span>
-            </Link>
+            <SectionAction section="team" placement="header" />
           </div>
         </div>
         <TeamMemberList members={team} achievementTargetId="team-hat-achievement" />
+        <SectionAction section="team" placement="footer" />
       </div>
     </section>
   );

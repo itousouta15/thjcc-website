@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { aboutCopy } from "@/data/site";
+import { SectionAction } from "./SectionAction";
 
 export function AboutSection() {
   return (
@@ -12,14 +12,13 @@ export function AboutSection() {
                 <span>全台灣最大</span>
                 <span>學生自主籌辦資安競賽</span>
               </h2>
-              <Link className="section-detail-link" href="/about">
-                認識 THJCC <span aria-hidden="true">→</span>
-              </Link>
+              <SectionAction section="about" placement="header" />
             </div>
           </div>
           <div className="about-art-target" aria-hidden="true" />
         </div>
         <p className="about-copy" data-node-id="77:543">{aboutCopy}</p>
+        <SectionAction section="about" placement="footer" />
       </div>
     </section>
   );

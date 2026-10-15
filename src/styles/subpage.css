@@ -223,7 +223,12 @@
   }
 
   .subpage-back {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    min-height: 56px;
     margin-bottom: 28px;
+    font-size: 20px;
   }
 
   .subpage-description {
@@ -259,5 +264,13 @@
 
   .partner-profile-content h3 {
     font-size: 24px;
+  }
+
+  .partner-profile-website {
+    justify-content: space-between;
+    width: 100%;
+    min-height: 56px;
+    font-size: 20px;
+    line-height: 30px;
   }
 }

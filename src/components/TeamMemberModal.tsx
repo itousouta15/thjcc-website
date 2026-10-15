@@ -2,10 +2,9 @@
 
 import { useEffect, useId, useRef } from "react";
 import { getTeamMemberRole, teamGroups, type TeamMember } from "@/data/team";
-import { ConfiguredLink } from "./ConfiguredLink";
 import { TeamAvatar } from "./TeamAvatar";
 import { ModalCloseButton } from "./ModalCloseButton";
-import { SocialIcon } from "./SocialIcon";
+import { TeamMemberSocialLinks } from "./TeamMemberSocialLinks";
 
 export function TeamMemberModal({ member, onClose }: { member: TeamMember | null; onClose: () => void }) {
   const modal = useRef<HTMLDialogElement>(null);
@@ -22,7 +21,9 @@ export function TeamMemberModal({ member, onClose }: { member: TeamMember | null
     return () => {
       if (dialog.open) dialog.close();
       window.dispatchEvent(new CustomEvent("thjcc:scroll-lock", { detail: false }));
-      if (trigger?.isConnected) trigger.focus({ preventScroll: true });
+      if (trigger?.isConnected && (document.activeElement === document.body || dialog.contains(document.activeElement))) {
+        trigger.focus({ preventScroll: true });
+      }
     };
   }, [member]);
 
@@ -36,7 +37,8 @@ export function TeamMemberModal({ member, onClose }: { member: TeamMember | null
       aria-labelledby={titleId} aria-describedby={descriptionId} onClose={onClose} data-lenis-prevent
       onKeyDown={event => {
         if (event.key !== "Tab" || event.ctrlKey || event.metaKey || event.altKey) return;
-        const controls = [...event.currentTarget.querySelectorAll<HTMLElement>('button:not([disabled]), a[href]')];
+        const controls = [...event.currentTarget.querySelectorAll<HTMLElement>('button:not([disabled]), a[href]')]
+          .filter(control => control.getClientRects().length > 0);
         const first = controls[0];
         const last = controls[controls.length - 1];
         if (event.shiftKey && document.activeElement === first) {
@@ -62,23 +64,7 @@ export function TeamMemberModal({ member, onClose }: { member: TeamMember | null
           <div className="team-member-modal-info">
             <p className="organization-modal-category">{group.name} · {getTeamMemberRole(member)}</p>
             <h2 id={titleId}>{member.name}</h2>
-            {socialLinks.length > 0 && (
-              <nav className="team-member-socials" aria-label={`${member.name} 的社群連結`}>
-                <ul>
-                  {socialLinks.map(link => {
-                    const external = /^https?:\/\//i.test(link.href);
-                    return (
-                      <li key={`${link.label}-${link.href}`}>
-                        <ConfiguredLink href={link.href} className="team-member-social-link" title={link.label}
-                          label={`${member.name} ${link.label}${external ? "（另開視窗）" : ""}`}>
-                          <SocialIcon href={link.href} label={link.label} />
-                        </ConfiguredLink>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </nav>
-            )}
+            <TeamMemberSocialLinks name={member.name} links={socialLinks} placement="header" />
           </div>
         </div>
         <div className="organization-modal-copy">
@@ -86,6 +72,7 @@ export function TeamMemberModal({ member, onClose }: { member: TeamMember | null
             <p id={index === 0 ? descriptionId : undefined} key={`${member.id}-${index}`}>{paragraph}</p>
           )) : <p id={descriptionId}>自我介紹準備中。</p>}
         </div>
+        <TeamMemberSocialLinks name={member.name} links={socialLinks} placement="footer" />
       </div>
     </dialog>
   );

@@ -36,8 +36,12 @@ export const teamMembers: TeamMember[] = [
   {
     id: "pgpenguin72", name: "PGpenguin72", image: "/images/team-pgpenguin72.webp",
     group: "coordination", position: "lead", featured: true, decoration: "left",
-    bio: [],
-    socialLinks: [],
+    bio: ["咕咕嘎嘎，是一隻企鵝喔，然後還是個資安小白，但莫名其妙當了總召…?"],
+    socialLinks: [
+      { label: "GitHub", href: "https://github.com/PGpenguin72" },
+      { label: "Instagram", href: "https://www.instagram.com/pg_penguin_72/" },
+      { label: "Email", href: "mailto:hi@pg72.tw" },
+    ],
   },
   {
     id: "denny", name: "Denny", image: "/images/team-denny.webp",

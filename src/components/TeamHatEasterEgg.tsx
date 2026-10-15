@@ -20,7 +20,9 @@ export function TeamHatEasterEgg({ open, onClose, onReset }: { open: boolean; on
     return () => {
       if (dialog.open) dialog.close();
       window.dispatchEvent(new CustomEvent("thjcc:scroll-lock", { detail: false }));
-      if (trigger?.isConnected) trigger.focus({ preventScroll: true });
+      if (trigger?.isConnected && (document.activeElement === document.body || dialog.contains(document.activeElement))) {
+        trigger.focus({ preventScroll: true });
+      }
     };
   }, [open]);
 

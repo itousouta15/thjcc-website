@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { coorganizers, organizers, partners, type Organization } from "@/data/site";
 import { OrganizationModal } from "./OrganizationModal";
 import { OrganizationLogo } from "./OrganizationLogo";
+import { SectionAction } from "./SectionAction";
 
 function OrganizationCards({ items, variant = "three", onSelect }: {
   items: Organization[];
@@ -36,9 +36,7 @@ export function PartnersSection() {
             <span>來自國內多個</span>
             <span>資安組織與單位的支持</span>
           </h2>
-          <Link className="section-detail-link" href="/partners">
-            認識合作夥伴 <span aria-hidden="true">→</span>
-          </Link>
+          <SectionAction section="partners" placement="header" />
         </div>
         <section className="organization-group" aria-labelledby="organizers-title">
           <h3 className="organization-heading" id="organizers-title"><span>主辦單位</span></h3>
@@ -54,6 +52,7 @@ export function PartnersSection() {
             <OrganizationCards items={partners} variant="one" onSelect={setSelected} />
           </section>
         </div>
+        <SectionAction section="partners" placement="footer" />
       </div>
       <OrganizationModal organization={selected} logo={selected ? <OrganizationLogo id={selected.id} /> : null}
         onClose={() => setSelected(null)} />

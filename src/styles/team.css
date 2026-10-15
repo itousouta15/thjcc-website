@@ -88,12 +88,20 @@
   }
 
   .team-group-navigation {
-    gap: 8px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
   }
 
   .team-group-navigation a {
-    padding-inline: 16px;
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 56px;
+    padding: 12px 20px;
+    font-size: 20px;
+    line-height: 30px;
   }
 
   .team-directory-member .team-avatar {

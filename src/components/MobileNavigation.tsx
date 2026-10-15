@@ -42,7 +42,7 @@ export function MobileNavigation({ links = navigation, currentPath }: { links?: 
         <div className="mobile-menu-links">
           {links.map(link => (
             <ConfiguredLink key={link.label} href={link.href} current={currentPath === link.href} onClick={() => setOpen(false)}>
-              {link.label}
+              <span className="nav-link-label">{link.label}</span>
             </ConfiguredLink>
           ))}
         </div>
