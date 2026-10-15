@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THJCC CTF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans TC', sans-serif; }
+  .countdown-card { background: linear-gradient(90deg,#1f2937,#111827); }
+</style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+
+
+<header class="fixed w-full bg-gray-800 z-50 shadow">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="/" class="flex items-center">
+      <img src="/2026/logo.png" alt="THJCC CTF" class="h-10 sm:h-12">
+    </a>
+    <nav class="hidden md:flex space-x-6">
+      <a href="#intro" class="hover:text-blue-400">比賽簡介</a>
+      <a href="#partners" class="hover:text-blue-400">合作伙伴</a>
+      <a href="#faq" class="hover:text-blue-400">FAQ</a>
+      <a href="#contact" class="hover:text-blue-400">聯絡方式</a>
+    </nav>
+
+    <div class="md:hidden">
+      <button id="nav-toggle" class="focus:outline-none">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden bg-gray-700 text-center py-4 space-y-4 md:hidden">
+    <a href="#intro" class="block hover:text-blue-400">比賽簡介</a>
+    <a href="#partners" class="block hover:text-blue-400">合作伙伴</a>
+    <a href="#faq" class="block hover:text-blue-400">FAQ</a>
+    <a href="#contact" class="block hover:text-blue-400">聯絡方式</a>
+  </div>
+</header>
+
+
+<section id="countdown" class="relative min-h-screen flex flex-col justify-center items-center text-center px-4">
+  <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold mb-4">THJCC CTF 2026<br>第三屆臺灣高中職聯合資安競賽</h1>
+  <p class="text-sm sm:text-lg text-gray-300 mb-6">2026/2/21 8:00 ~ 2/22 21:00</p>
+  <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+    <a href="https://ctf2026-sum.thjcc.org" target="_blank" class="bg-pink-600 px-6 py-3 rounded-xl text-white font-semibold hover:bg-blue-500">比賽平臺</a>
+    <a href="https://dc.thjcc.org" target="_blank" class="bg-blue-600 px-6 py-3 rounded-xl text-white font-semibold hover:bg-blue-500">加入 Discord</a>
+    <a href="https://instagram.com/thjcc.tw" target="_blank" class="bg-pink-600 px-6 py-3 rounded-xl text-white font-semibold hover:bg-pink-500">追蹤 Instagram</a>
+  </div>
+  <div id="timer" class="countdown-card px-6 sm:px-8 py-4 sm:py-6 rounded-3xl text-3xl sm:text-4xl md:text-5xl font-mono text-blue-400 font-bold shadow-lg"></div>
+
+<div class="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 sm:h-12 sm:w-12 text-blue-400 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+</section>
+
+
+<section id="intro" class="max-w-4xl mx-auto text-center py-20 px-4">
+  <h2 class="text-3xl sm:text-4xl font-bold mb-6">比賽簡介</h2>
+  <p class="text-sm sm:text-lg text-gray-300 leading-relaxed">
+    THJCC CTF 是一場專為臺灣高中生舉辦的線上資安競賽，由 SCINT 北臺灣學生資訊社群、全國志同道合的學生共同主辦，並獲得多個資安組織與單位支持。比賽採 Jeopardy 題型，題目涵蓋 Web、Reverse、Crypto、Pwn 與 Misc，兼顧入門學習與進階挑戰。賽事宗旨在於推廣資訊安全教育，培養高中生對資安技術的興趣與實作能力。在比賽時更有可能獲得獎金、獎狀等獎勵，讓選手在競賽過程中增加應對未來比賽的信心。THJCC CTF 不僅是競爭舞台，更是學習與交流的平台。
+  </p>
+</section>
+
+
+<section id="partners" class="py-20 bg-gray-800 text-center px-4">
+  <div id="organizers" class="mb-16">
+    <h2 class="text-3xl sm:text-4xl font-bold mb-12">主辦單位</h2>
+    <div class="flex justify-center flex-wrap gap-4 sm:gap-6"></div>
+  </div>
+  <h2 class="text-3xl sm:text-4xl font-bold mb-12">合作伙伴</h2>
+  <div id="coorganizers" class="mb-16">
+    <h4 class="text-xl sm:text-2xl font-semibold mb-6">協辦單位</h4>
+    <div class="flex justify-center flex-wrap gap-4 sm:gap-6"></div>
+  </div>
+  <div id="sponsors">
+    <h4 class="text-xl sm:text-2xl font-semibold mb-6">贊助單位</h4>
+    <div class="flex justify-center flex-wrap gap-4 sm:gap-6"></div>
+  </div>
+</section>
+
+
+<section id="faq" class="max-w-4xl mx-auto py-20 px-4">
+  <h2 class="text-3xl sm:text-4xl text-center font-bold mb-12">常見問題 (FAQ)</h2>
+  <div class="space-y-4">
+    <details class="bg-gray-700 p-6 rounded-xl shadow-lg">
+      <summary class="cursor-pointer font-semibold text-lg">學生賽區報名資格是什麼？</summary>
+      <p class="mt-2 text-gray-300">中華民國高中職學生、專三以下學生、實驗教育和高中同等學力學生，公開賽區則不限制國籍、年齡</p>
+    </details>
+    <details class="bg-gray-700 p-6 rounded-xl shadow-lg">
+      <summary class="cursor-pointer font-semibold text-lg">比賽形式是什麼？</summary>
+      <p class="mt-2 text-gray-300">比賽將以線上 Jeopardy 形式進行</p>
+    </details>
+    <details class="bg-gray-700 p-6 rounded-xl shadow-lg">
+      <summary class="cursor-pointer font-semibold text-lg">有什麼獎品</summary>
+      <p class="mt-2 text-gray-300">高達新臺幣8000元，詳見報名連接（https://form.thjcc.org）</p>
+    </details>
+  </div>
+</section>
+
+
+<section id="contact" class="bg-gray-900 py-20 text-center px-4">
+  <h2 class="text-3xl sm:text-4xl font-bold mb-8">聯絡我們</h2>
+  <div class="flex flex-col sm:flex-row justify-center gap-8 text-lg">
+    <p>📧 Email: <a href="mailto:cont@thjcc.org" class="text-blue-400 hover:underline">cont@thjcc.org</a></p>
+    <p>💬 Discord: <a href="https://dc.thjcc.org" target="_blank" class="text-blue-400 hover:underline">dc.thjcc.org</a></p>
+    <p>📱 Instagram: <a href="https://instagram.com/thjcc.tw" target="_blank" class="text-blue-400 hover:underline">thjcc.tw</a></p>
+  </div>
+</section>
+
+
+<footer class="bg-gray-900 py-6 text-center text-gray-400 text-sm">
+  © 2025 THJCC CTF
+</footer>
+
+
+<script>
+function updateCountdown() {
+  const target = new Date("2026-02-21T08:00:00+08:00").getTime();
+  const now = new Date().getTime();
+  const diff = target - now;
+  if(diff<=0){ document.getElementById("timer").innerText="比賽已開始！"; return; }
+  const d=Math.floor(diff/(1000*60*60*24));
+  const h=Math.floor((diff/(1000*60*60))%24);
+  const m=Math.floor((diff/(1000*60))%60);
+  const s=Math.floor((diff/1000)%60);
+  document.getElementById("timer").innerText=`距離比賽還有 ${d}天 ${h}時 ${m}分 ${s}秒`;
+}
+setInterval(updateCountdown,1000); updateCountdown();
+</script>
+
+
+<script>
+const partnersData = {
+  organizers:[
+    {name:"SCINT 北臺灣學生資訊社群",logo:"https://scint.org/assets/logo.png",url:"https://scint.org/"},
+    {name:"SCIST 南臺灣學生資訊社群",logo:"SCIST.svg",url:"https://scist.org/"}
+  ],
+  coorganizers:[
+    {name:"SCAICT 中部高中電資社團聯合會議",logo:"https://scaict.org/src/img/logo.svg",url:"https://scaict.org/"},
+  ],
+  sponsors:[
+    {name:" 社團法人台灣駭客協會",logo:"logo-hitcon.webp",url:"https://hacker.org.tw/"},
+    {name:"NCSE Network",logo:"https://cdn-file.ncse.tw/image/Logo_NCSE_Network_Banner.svg",url:"https://ncse.tw/"},
+  ]
+};
+
+function renderCards(containerId,list){
+  const container=document.querySelector(`#${containerId} > div`);
+  list.forEach(p=>{
+    const a=document.createElement("a");
+    a.href=p.url; a.target="_blank";
+    a.className="bg-gray-700 p-4 rounded-xl flex flex-col items-center hover:scale-105 transition shadow-lg w-32 sm:w-40 md:w-48";
+    a.innerHTML=`
+      <img src="${p.logo}" alt="${p.name}" class="mb-2 w-24 sm:w-32 h-12 sm:h-16 object-contain">
+      <span class="text-sm text-center break-words">${p.name}</span>
+    `;
+    container.appendChild(a);
+  });
+}
+renderCards("organizers",partnersData.organizers);
+renderCards("coorganizers",partnersData.coorganizers);
+renderCards("sponsors",partnersData.sponsors);
+</script>
+
+
+<script>
+const navToggle = document.getElementById('nav-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+navToggle.addEventListener('click',()=> {
+  mobileMenu.classList.toggle('hidden');
+});
+</script>
+</body>
+</html>
