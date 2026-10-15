@@ -4,6 +4,9 @@ const nextConfig = {
   trailingSlash: true,
   reactStrictMode: true,
   poweredByHeader: false,
+  images: {
+    unoptimized: true,
+  },
   webpack(config) {
     // Embed small first-paint SVGs without changing regular next/image imports.
     const imageRule = config.module.rules.find(rule => rule.loader === "next-image-loader");
