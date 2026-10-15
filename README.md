@@ -248,6 +248,28 @@ Vercel 等具備 Next.js 整合的平台可由框架預設處理產物與啟動�
 
 目前 `next.config.mjs` 啟用 React Strict Mode 並關閉 `X-Powered-By` 標頭，未設定靜態匯出或 `standalone` 輸出。部署方式應支援 Next.js 執行環境；僅將 `public/` 上傳至靜態主機不會產生完整網站。
 
+### GitHub Actions 自動部署至 Vercel
+
+部署流程定義於 [`.github/workflows/deploy-vercel.yml`](./.github/workflows/deploy-vercel.yml)。推送至 `main` 後會自動執行，也可在 GitHub 的 **Actions → Deploy to Vercel → Run workflow** 選擇 `main` 手動部署。
+
+首次啟用前，請到儲存庫 **Settings → Secrets and variables → Actions → New repository secret** 設定：
+
+| Secret | 來源 |
+| --- | --- |
+| `VERCEL_TOKEN` | 在 [Vercel Access Tokens](https://vercel.com/account/tokens) 建立，需有目標專案的部署權限 |
+| `VERCEL_ORG_ID` | 本機 `.vercel/project.json` 的 `orgId` |
+| `VERCEL_PROJECT_ID` | 本機 `.vercel/project.json` 的 `projectId` |
+
+亦可透過 GitHub CLI 的互動提示設定 Token：
+
+```sh
+gh secret set VERCEL_TOKEN
+```
+
+流程使用 Node.js 22 與固定版本的 Vercel CLI，依序執行 `npm ci`、ESLint、TypeScript 檢查、`vercel pull`、`vercel build --prod`，最後以 `vercel deploy --prebuilt --prod` 上傳建置產物。成功後，Actions 執行摘要會顯示部署網址。
+
+`vercel.json` 已關閉 Vercel Git 整合的自動部署，改由此 workflow 統一處理正式環境部署。請先設定上述 Secrets 再推送 workflow；同時觸發的部署會依序執行。
+
 ## 目前連結狀態
 
 | 入口 | 目前設定 |
