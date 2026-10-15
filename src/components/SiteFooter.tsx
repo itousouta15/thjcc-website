@@ -1,4 +1,4 @@
-import { navigation, site } from "@/data/site";
+import { navigation, pastWebsites, site } from "@/data/site";
 import { Brand } from "./Brand";
 import { ConfiguredLink } from "./ConfiguredLink";
 import { SocialLinks } from "./SocialLinks";
@@ -11,7 +11,16 @@ export function SiteFooter({ homeHref = "#top" }: { homeHref?: string }) {
           <nav className="footer-column" aria-label="頁尾連結">
             <h2>連結</h2>
             <ConfiguredLink href={homeHref}>首頁</ConfiguredLink>
-            {navigation.map(link => <ConfiguredLink key={link.label} href={link.href}>{link.label}</ConfiguredLink>)}
+            {navigation.filter(link => link.href !== site.links.sponsorship).map(link => <ConfiguredLink key={link.label} href={link.href}>{link.label}</ConfiguredLink>)}
+          </nav>
+          <nav className="footer-column" aria-label="歷年網站">
+            <h2>歷年網站</h2>
+            {pastWebsites.map(website => (
+              <ConfiguredLink key={website.href} href={website.href} className="footer-archive-link"
+                label={`${website.label} 歷年網站（另開視窗）`}>
+                {website.label} <span aria-hidden="true">↗</span>
+              </ConfiguredLink>
+            ))}
           </nav>
           <div className="footer-column">
             <h2>支持我們</h2>

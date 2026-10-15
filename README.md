@@ -25,24 +25,26 @@ Make and Design by [itouSouta](https://github.com/itousouta15)
 
 | 區塊 | 內容 |
 | --- | --- |
-| 導覽列 | 品牌標誌回首頁，連至關於 THJCC、籌備團隊、合作夥伴，並標示目前頁面 |
+| 導覽列 | 品牌標誌回首頁，連至關於 THJCC、籌備團隊、合作夥伴，並以白色按鈕連至我要贊助；標示目前頁面 |
 | Hero | THJCC 4 主視覺、金屬標誌、賽事名稱與社群入口 |
 | 賽事介紹 | 競賽宗旨與學生自主籌辦的介紹 |
 | 籌備團隊 | 五位籌備成員的職務、名稱與頭像 |
 | 成員介紹彈窗 | 點選首頁或團隊子頁的成員，查看自我介紹與社群連結 |
 | 支持單位 | 三個主辦單位、兩個協辦單位與一個合作單位 |
 | 單位介紹彈窗 | 單位摘要、主要領域與官方網站連結 |
-| 頁尾 | 首頁與子頁連結、贊助入口、聯絡信箱與社群連結 |
+| 贊助頁 | 贊助用途、經費／物資／技術合作方向、洽談流程與聯絡入口 |
+| 頁尾 | 首頁與子頁連結、歷年網站、贊助入口、聯絡信箱與社群連結；桌面四欄、手機兩欄排列 |
 
-主導覽使用 `/about`、`/team`、`/partners` 三個子頁，首頁各區摘要也提供完整內容的入口。首頁的 `#about`、`#team`、`#partners` 為頁內錨點，`#top` 可回到頁面頂端。FAQ 與贊助入口的設定方式見[目前連結狀態](#目前連結狀態)。
+主導覽使用 `/about`、`/team`、`/partners`、`/sponsorship` 四個子頁，首頁各區摘要也提供完整內容的入口。首頁的 `#about`、`#team`、`#partners` 為頁內錨點，`#top` 可回到頁面頂端。FAQ 與贊助入口的設定方式見[目前連結狀態](#目前連結狀態)。
 
 | 路徑 | 內容來源 |
 | --- | --- |
 | `/about` | `src/data/about.ts` 的完整介紹，以及 `src/data/site.ts` 的主辦社群名單與聯絡資訊 |
 | `/team` | `src/data/team.ts` 的分組、成員、自我介紹與社群連結 |
 | `/partners` | `src/data/site.ts` 的單位分類與 `src/data/organizationDetails.ts` 的完整介紹 |
+| `/sponsorship` | `src/data/sponsorship.ts` 的贊助用途、合作方向、洽談流程與郵件主旨，以及 `src/data/site.ts` 的聯絡信箱 |
 
-三個子頁共用 `SubpageLayout.tsx` 與 `src/styles/subpage.css`，導覽項目集中在 `src/data/site.ts` 的 `navigation`。站內路由透過 Next.js Link 切換，首頁與分組的頁內錨點則沿用平滑捲動。
+四個子頁共用 `SubpageLayout.tsx` 與 `src/styles/subpage.css`，導覽項目集中在 `src/data/site.ts` 的 `navigation`。站內路由透過 Next.js Link 切換，首頁與分組的頁內錨點則沿用平滑捲動。
 
 ## 技術組成
 
@@ -108,7 +110,8 @@ thjcc-website/
 │   │   ├── globals.css           # 全域樣式與鍵盤焦點樣式
 │   │   ├── about/page.tsx        # 關於 THJCC 與聯絡入口
 │   │   ├── team/page.tsx         # 完整團隊分組子頁
-│   │   └── partners/page.tsx     # 合作單位完整介紹
+│   │   ├── partners/page.tsx     # 合作單位完整介紹
+│   │   └── sponsorship/page.tsx  # 贊助方式與合作洽詢
 │   ├── components/
 │   │   ├── SiteHeader.tsx        # 桌面與手機導覽入口
 │   │   ├── SubpageLayout.tsx     # 子頁共用頁首、標題、頁尾
@@ -134,13 +137,15 @@ thjcc-website/
 │   │   ├── site.ts               # 網站名稱、連結、文案、成員與單位
 │   │   ├── about.ts              # 關於 THJCC 的詳細介紹與社群說明
 │   │   ├── team.ts               # 成員、分組、職位與首頁精選設定
+│   │   ├── sponsorship.ts        # 贊助用途、合作方向、流程與郵件主旨
 │   │   └── organizationDetails.ts # 單位介紹、重點與官方網址
 │   └── styles/
 │       ├── tokens.css            # 色彩、字型、間距與圓角變數
 │       ├── home.css              # 首頁版面與 RWD
-│       ├── background.css        # 光暈與點陣動畫
+│       ├── background.css        # 背景光暈動畫
 │       ├── team.css              # 團隊子頁與職位標記
 │       ├── subpage.css           # 子頁共用版型與合作單位介紹
+│       ├── sponsorship.css       # 贊助頁卡片、合作流程與 RWD
 │       └── modal.css             # 單位介紹彈窗樣式
 ├── .eslintrc.json                 # ESLint 設定
 ├── next.config.mjs                # Next.js 設定
@@ -161,6 +166,7 @@ thjcc-website/
 | --- | --- |
 | `site` | 中英文名稱、聯絡信箱、Discord、Instagram、FAQ 與贊助連結 |
 | `navigation` | 導覽項目的標籤與目的地 |
+| `pastWebsites` | 頁尾歷年網站的名稱與網址，目前收錄 2026 與 2026 夏季賽；新增屆次時加入陣列即可 |
 | `aboutCopy` | 賽事介紹內文 |
 | `team` | 首頁精選成員，由 `src/data/team.ts` 匯出 |
 | `organizers` | 主辦單位 |
@@ -224,10 +230,17 @@ thjcc-website/
 
 新增單位時，需擴充 `Organization["id"]` 型別，加入對應清單與 `organizationDetails`，再設定 `OrganizationLogo` 的圖片及尺寸。若單位數量改變，也要確認卡片欄數與手機排列。
 
+### 贊助頁
+
+贊助頁位於 `/sponsorship`，可從桌面／手機導覽及頁尾「我要贊助」進入。贊助用途、支持方式與洽談流程維護於 `src/data/sponsorship.ts`；頁首介紹與聯絡文案位於 `src/app/sponsorship/page.tsx`。
+
+「洽談贊助合作」與頁尾聯絡區的信箱連結會開啟郵件軟體，收件者使用 `site.email`，主旨使用 `sponsorshipEmailSubject`。目前採來信討論的方式，贊助金額、資源用途與回饋依雙方確認的方案安排。
+
 ### 圖片、字型與樣式
 
 - 公開素材放在 `public/`，以根路徑引用，例如 `/images/THJCC.webp`；檔名大小寫需與引用一致。
-- Hero 目前使用 `public/images/THJCC.webp`，更換素材時需同步調整 `HeroArtwork.tsx` 的原始寬高比例。
+- Hero 目前靜態匯入 `public/images/THJCC.webp`，由 Next.js 自動取得寬高，並預載入、高優先載入圖片。透明主視覺使用空白占位，避免模糊預覽透過透明區域露出底色、在初始化完成時閃爍；更換素材比例時需同步調整 `home.css` 的 `.hero-art-slot`。
+- 品牌標誌與 Discord、Instagram 圖示以 `*.svg?inline` 匯入，由 `next.config.mjs` 的 Webpack 規則嵌入為 data URL，首屏不需額外請求 SVG。原始素材仍維護於 `public/images/`，Hero 分隔線則由 CSS 繪製。
 - 全站色彩、字型與間距優先修改 `src/styles/tokens.css`；各區塊樣式與響應式規則位於 `src/styles/home.css`。
 - 字型由 `src/app/layout.tsx` 的 `next/font/local` 載入，新增或更換時需同步設定路徑、字重與 CSS 變數。
 - 網頁標題、描述、圖示與主題色也在 `src/app/layout.tsx` 設定。
@@ -263,9 +276,9 @@ ICO 的所有尺寸均使用 32-bit DIB 格式，保留透明度與透明遮罩�
 - **桌面捲動**：寬度至少 768px 且未啟用「減少動態效果」時，動態載入 Lenis，使用 `wheelMultiplier: 0.8`、`lerp: 0.1` 與 `autoRaf: true`。
 - **頁內導覽**：桌面錨點由 Lenis 處理，更新網址 hash，捲動完成後將焦點移至目的區塊。導覽列避讓間距透過 `--header-scroll-offset` 設定。
 - **Hero 標誌**：依捲動進度線性縮小、移至介紹標題右側；僅保留捲動動畫，不套用滑鼠視差。桌面直接訂閱 Lenis 同一幀的更新，手機沿用原生捲動事件搭配 `requestAnimationFrame`。初始尺寸和位置由 CSS 排列，避免重新整理時跳動。
-- **滑鼠互動**：支援滑鼠、寬度至少 768px 且未要求減少動態效果時，背景光暈會呈現輕微位移；捲動中暫停滑鼠位移更新。
-- **背景動畫**：點陣固定顯示，不做漂移或滑鼠視差。桌面光暈在捲動期間暫停，停下約 160ms 後從原進度繼續，分頁隱藏時也會暫停；手機光暈維持靜態。
-- **減少動態效果**：遵循 `prefers-reduced-motion`，停用 Lenis、背景滑鼠位移與背景動畫。手機版使用原生捲動。
+- **贊助按鈕**：桌面導覽與手機選單使用白色膠囊按鈕，滑過或鍵盤聚焦時呈現光澤掃過與陰影變化，按下時輕微縮小；滑過時維持原位。啟用「減少動態效果」時停用掃光及縮放。
+- **背景動畫**：寬度至少 768px 時，光暈在原點半徑 120px 內隨機選擇目標，以平滑曲線慢速移動，每段至少 24 秒；範圍與速度可在 `AnimatedBackground.tsx` 的 `DRIFT_RADIUS`、`DRIFT_SPEED`、`MIN_DRIFT_DURATION` 調整，光暈覆蓋範圍也會隨半徑擴大。使用 Web Animations API 執行，不需要逐幀更新 React 狀態。捲動期間與分頁隱藏時暫停，停止捲動約 160ms 後從原進度繼續；手機光暈維持靜態。
+- **減少動態效果**：遵循 `prefers-reduced-motion`，停用 Lenis 與背景動畫。手機版使用原生捲動。
 
 ### 鍵盤操作與彈窗
 
@@ -356,11 +369,11 @@ gh secret set VERCEL_TOKEN
 | --- | --- |
 | Discord | <https://dc.thjcc.org/> |
 | Instagram | <https://instagram.com/thjcc.tw> |
-| 聯絡信箱 | [contact@thjcc.org](mailto:contact@thjcc.org) |
+| 聯絡信箱 | [cont@thjcc.org](mailto:cont@thjcc.org) |
 | FAQ | `site.links.faq` 為 `null`，待填入正式目的地 |
-| 我要贊助 | `site.links.sponsorship` 為 `null`，待填入正式目的地 |
+| 我要贊助 | `site.links.sponsorship` 為 `/sponsorship`，連至站內贊助頁 |
 
-FAQ 與贊助網址取得後，在 `src/data/site.ts` 將相應的 `null` 改為網址即可。`ConfiguredLink` 會將沒有目的地的項目呈現為 `aria-disabled="true"` 的停用連結，並顯示「官方連結待提供」提示。
+FAQ 網址取得後，在 `src/data/site.ts` 將 `site.links.faq` 的 `null` 改為網址即可。`ConfiguredLink` 會將沒有目的地的項目呈現為 `aria-disabled="true"` 的停用連結，並顯示「官方連結待提供」提示。
 
 ## 字型與授權
 
@@ -376,6 +389,6 @@ FAQ 與贊助網址取得後，在 `src/data/site.ts` 將相應的 `null` 改為
 
 ## 聯絡方式
 
-- Email：[contact@thjcc.org](mailto:contact@thjcc.org)
+- Email：[cont@thjcc.org](mailto:cont@thjcc.org)
 - Discord：<https://dc.thjcc.org/>
 - Instagram：<https://instagram.com/thjcc.tw>

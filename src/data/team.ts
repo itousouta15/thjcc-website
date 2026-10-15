@@ -76,7 +76,7 @@ export const teamMembers: TeamMember[] = [
     id: "itousouta", name: "itouSouta", image: "/images/team-itousouta.webp",
     group: "design", position: "lead", featured: true, decoration: "right", largeRole: true,
     additionalRoles: [{ group: "infrastructure", position: "member" }],
-    bio: ["SCAICT第五屆會長，一個喜歡 VOCALOID 和畫畫的可悲高三牲，BTW 我是這個網站的主要設計者及開發者。設計組沒招到人啊QAQ"],
+    bio: ["SCAICT 第五屆會長，一個喜歡 VOCALOID 和畫畫的高三牲，BTW 我是這個網站的設計者及開發者。設計組沒招到人啊 QAQ"],
     socialLinks: [
       { label: "個人網站", href: "https://itousouta.me/" },
       { label: "GitHub", href: "https://github.com/itousouta15" },

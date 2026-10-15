@@ -8,68 +8,15 @@
 
 .ambient-glow {
   position: absolute;
-  inset: -12%;
   background:
     radial-gradient(ellipse at 18% 30%, rgb(249 245 239 / 7%), transparent 48%),
     radial-gradient(ellipse at 82% 70%, rgb(249 245 239 / 4%), transparent 46%);
-  animation: ambient-glow-drift 36s ease-in-out infinite alternate;
+  transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
-.ambient-background[data-paused="true"] .ambient-glow {
-  animation-play-state: paused;
-}
-
-.ambient-pointer {
-  position: absolute;
-  inset: -16px;
-  transition: transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
-  will-change: transform;
-}
-
-.ambient-grid {
-  position: absolute;
-  inset: -58px;
-  background-image: radial-gradient(circle, rgb(249 245 239 / 18%) 0.7px, transparent 1px);
-  background-size: 42px 42px;
-  opacity: 0.22;
-  mask-image: linear-gradient(transparent, #000 22%, #000 72%, transparent);
-}
-
-@keyframes ambient-glow-drift {
-  from {
-    transform: translate3d(-2%, -1%, 0) scale(1);
-  }
-  to {
-    transform: translate3d(3%, 3%, 0) scale(1.06);
-  }
-}
-
-@media (max-width: 767px) {
-  .ambient-grid {
-    opacity: 0.14;
-  }
-}
-
-@media (max-width: 767px), (hover: none), (pointer: coarse) {
-  .ambient-glow,
-  .ambient-grid {
-    animation: none;
-    will-change: auto;
-  }
-
-  .ambient-pointer {
-    transition: none;
-    will-change: auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ambient-glow,
-  .ambient-grid,
-  .ambient-pointer {
-    animation: none;
-    transition: none;
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .ambient-glow {
     will-change: auto;
   }
 }

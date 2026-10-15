@@ -1,3 +1,6 @@
+import discordIcon from "../../public/images/discord-dark.svg?inline";
+import instagramIcon from "../../public/images/instagram-dark.svg?inline";
+
 function getIcon(href: string, label: string) {
   if (/^mailto:/i.test(href)) return "email";
   let hostname = "";
@@ -16,8 +19,8 @@ function getIcon(href: string, label: string) {
 
 export function SocialIcon({ href, label }: { href: string; label: string }) {
   const icon = getIcon(href, label);
-  const asset = icon === "instagram" || icon === "discord" ? `${icon}-dark` : icon;
-  const source = `url(/images/${asset}.svg)`;
+  const asset = icon === "discord" ? discordIcon : icon === "instagram" ? instagramIcon : `/images/${icon}.svg`;
+  const source = `url("${asset}")`;
 
   return (
     <span className={`social-link-icon${icon === "linkedin" ? " social-link-icon--linkedin" : ""}`}

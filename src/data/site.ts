@@ -3,18 +3,19 @@ export { featuredTeam as team } from "./team";
 export type SiteLink = {
   label: string;
   href: string | null;
+  variant?: "button";
 };
 
 // Null destinations stay visibly faithful to the design without inventing URLs.
 // Fill these in once the official destinations are available.
 export const site = {
-  email: "contact@thjcc.org",
+  email: "cont@thjcc.org",
   englishName: "Taiwan High-school Joint Cybersecurity Competition",
   chineseName: "臺灣高中職聯合資安競賽",
   links: {
     discord: "https://dc.thjcc.org/",
     instagram: "https://instagram.com/thjcc.tw",
-    sponsorship: null as string | null,
+    sponsorship: "/sponsorship",
     faq: null as string | null,
   },
 };
@@ -23,6 +24,12 @@ export const navigation: SiteLink[] = [
   { label: "關於 THJCC", href: "/about" },
   { label: "籌備團隊", href: "/team" },
   { label: "合作夥伴", href: "/partners" },
+  { label: "我要贊助", href: site.links.sponsorship, variant: "button" },
+];
+
+export const pastWebsites = [
+  { label: "2026", href: "https://thjcc.org/2026" },
+  { label: "2026 夏季賽", href: "https://thjcc.org/2026-summer/" },
 ];
 
 export const aboutParagraphs = [

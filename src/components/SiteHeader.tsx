@@ -14,7 +14,8 @@ export function SiteHeader({ links = navigation, homeHref = "#top", currentPath 
         <Brand href={homeHref} />
         <nav className="desktop-navigation" aria-label="主導覽">
           {links.map(link => (
-            <ConfiguredLink key={link.label} href={link.href} current={currentPath === link.href}>
+            <ConfiguredLink key={link.label} href={link.href} current={currentPath === link.href}
+              className={link.variant === "button" ? "nav-sponsor-button" : undefined}>
               <span className="nav-link-label">{link.label}</span>
             </ConfiguredLink>
           ))}

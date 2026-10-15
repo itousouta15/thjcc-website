@@ -41,7 +41,8 @@ export function MobileNavigation({ links = navigation, currentPath }: { links?: 
         ref={element => { element?.toggleAttribute("inert", !open); }}>
         <div className="mobile-menu-links">
           {links.map(link => (
-            <ConfiguredLink key={link.label} href={link.href} current={currentPath === link.href} onClick={() => setOpen(false)}>
+            <ConfiguredLink key={link.label} href={link.href} current={currentPath === link.href} onClick={() => setOpen(false)}
+              className={link.variant === "button" ? "nav-sponsor-button" : undefined}>
               <span className="nav-link-label">{link.label}</span>
             </ConfiguredLink>
           ))}

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 import { isSmoothScrollActive, subscribeSmoothScroll } from "@/lib/smooth-scroll";
+import heroArtwork from "../../public/images/THJCC.webp";
 
 export function HeroArtwork() {
   const artwork = useRef<HTMLDivElement>(null);
@@ -112,7 +113,8 @@ export function HeroArtwork() {
   return (
     <div className="hero-art-slot" aria-hidden="true">
       <div className="hero-art" ref={artwork} data-node-id="76:232">
-        <Image src="/images/THJCC.webp" alt="" width={2070} height={1707} priority
+        {/* A blur background shows through this transparent artwork and flashes away on hydration. */}
+        <Image src={heroArtwork} alt="" priority fetchPriority="high" placeholder="empty"
           sizes="(max-width: 767px) 300px, (max-width: 1319px) 55vw, 675px" />
       </div>
     </div>
