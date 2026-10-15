@@ -6,7 +6,7 @@ import "@/styles/team.css";
 
 export const metadata: Metadata = {
   title: "籌備團隊｜THJCC",
-  description: "第四屆臺灣高中職聯合資安競賽的籌備成員與分組，包含總召、出題、網管、文書及設計團隊。",
+  description: "第四屆臺灣高中職聯合資安競賽的籌備成員與分組，包含總召、出題、驗題、網管、文書及設計團隊。",
 };
 
 const positionOrder: Record<TeamPosition, number> = { lead: 0, deputy: 1, member: 2 };

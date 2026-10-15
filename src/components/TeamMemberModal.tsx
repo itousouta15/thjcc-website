@@ -1,31 +1,17 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useId } from "react";
 import { getTeamMemberRole, getTeamMemberships, type TeamMember } from "@/data/team";
 import { TeamAvatar } from "./TeamAvatar";
 import { ModalCloseButton } from "./ModalCloseButton";
 import { TeamMemberSocialLinks } from "./TeamMemberSocialLinks";
+import { useAnimatedDialog } from "@/lib/use-animated-dialog";
 
 export function TeamMemberModal({ member, onClose }: { member: TeamMember | null; onClose: () => void }) {
-  const modal = useRef<HTMLDialogElement>(null);
+  const { modal, requestClose } = useAnimatedDialog(Boolean(member), onClose);
   const id = useId();
   const titleId = `${id}-title`;
   const descriptionId = `${id}-description`;
-
-  useEffect(() => {
-    const dialog = modal.current;
-    if (!member || !dialog) return;
-    const trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    dialog.showModal();
-    window.dispatchEvent(new CustomEvent("thjcc:scroll-lock", { detail: true }));
-    return () => {
-      if (dialog.open) dialog.close();
-      window.dispatchEvent(new CustomEvent("thjcc:scroll-lock", { detail: false }));
-      if (trigger?.isConnected && (document.activeElement === document.body || dialog.contains(document.activeElement))) {
-        trigger.focus({ preventScroll: true });
-      }
-    };
-  }, [member]);
 
   if (!member) return null;
   const roleSummary = getTeamMemberships(member).map(getTeamMemberRole).join(" · ");
@@ -34,29 +20,9 @@ export function TeamMemberModal({ member, onClose }: { member: TeamMember | null
 
   return (
     <dialog ref={modal} className="organization-modal team-member-modal"
-      aria-labelledby={titleId} aria-describedby={descriptionId} onClose={onClose} data-lenis-prevent
-      onKeyDown={event => {
-        if (event.key !== "Tab" || event.ctrlKey || event.metaKey || event.altKey) return;
-        const controls = [...event.currentTarget.querySelectorAll<HTMLElement>('button:not([disabled]), a[href]')]
-          .filter(control => control.getClientRects().length > 0);
-        const first = controls[0];
-        const last = controls[controls.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last?.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first?.focus();
-        }
-      }}
-      onClick={event => {
-        if (event.target !== event.currentTarget) return;
-        const bounds = event.currentTarget.getBoundingClientRect();
-        if (event.clientX < bounds.left || event.clientX > bounds.right
-          || event.clientY < bounds.top || event.clientY > bounds.bottom) event.currentTarget.close();
-      }}>
+      aria-labelledby={titleId} aria-describedby={descriptionId} data-lenis-prevent>
       <div className="organization-modal-panel">
-        <ModalCloseButton label="關閉成員介紹" onClick={() => modal.current?.close()} />
+        <ModalCloseButton label="關閉成員介紹" onClick={() => requestClose()} />
         <div className="team-member-modal-header">
           <div className="team-member-modal-avatar" aria-hidden="true">
             <TeamAvatar member={member} sizes="(max-width: 767px) 96px, 144px" />

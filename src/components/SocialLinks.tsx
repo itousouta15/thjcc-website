@@ -6,6 +6,10 @@ export function SocialLinks({ footer = false }: { footer?: boolean }) {
   const links = [
     { name: "Discord", href: site.links.discord },
     { name: "Instagram", href: site.links.instagram },
+    ...(footer ? [
+      { name: "Threads", href: site.links.threads },
+      { name: "GitHub", href: site.links.GitHub },
+    ] : []),
   ];
 
   return (

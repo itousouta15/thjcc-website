@@ -1,0 +1,28 @@
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes page-content-rise {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-transition > .site-shell > main {
+    animation: page-enter 320ms ease-out backwards;
+  }
+
+  /* Keep the Hero's geometry stable for its scroll-linked artwork. */
+  .page-transition > .subpage > main > * {
+    animation: page-content-rise 360ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+}

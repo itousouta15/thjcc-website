@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import type { Organization } from "@/data/site";
 import { organizationDetails } from "@/data/organizationDetails";
 import { ModalCloseButton } from "./ModalCloseButton";
+import { useAnimatedDialog } from "@/lib/use-animated-dialog";
 
 type Props = {
   organization: Organization | null;
@@ -12,18 +13,7 @@ type Props = {
 };
 
 export function OrganizationModal({ organization, logo, onClose }: Props) {
-  const modal = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = modal.current;
-    if (!organization || !dialog) return;
-    dialog.showModal();
-    window.dispatchEvent(new CustomEvent("thjcc:scroll-lock", { detail: true }));
-    return () => {
-      if (dialog.open) dialog.close();
-      window.dispatchEvent(new CustomEvent("thjcc:scroll-lock", { detail: false }));
-    };
-  }, [organization]);
+  const { modal, requestClose } = useAnimatedDialog(Boolean(organization), onClose);
 
   if (!organization) return null;
   const details = organizationDetails[organization.id];
@@ -31,25 +21,9 @@ export function OrganizationModal({ organization, logo, onClose }: Props) {
   return (
     <dialog ref={modal} className="organization-modal" id="organization-modal"
       aria-labelledby="organization-modal-title" aria-describedby="organization-modal-description"
-      onClose={onClose} data-lenis-prevent
-      onKeyDown={event => {
-        if (event.key !== "Tab" || event.ctrlKey || event.metaKey || event.altKey) return;
-        const controls = [...event.currentTarget.querySelectorAll<HTMLElement>('button:not([disabled]), a[href]')];
-        const first = controls[0];
-        const last = controls[controls.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last?.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first?.focus();
-        }
-      }}
-      onClick={event => {
-        if (event.target === event.currentTarget) event.currentTarget.close();
-      }}>
+      data-lenis-prevent>
       <div className="organization-modal-panel">
-        <ModalCloseButton label="關閉單位介紹" onClick={() => modal.current?.close()} />
+        <ModalCloseButton label="關閉單位介紹" onClick={() => requestClose()} />
         <div className="organization-modal-logo" aria-hidden="true">{logo}</div>
         <p className="organization-modal-category">{details.category} · {details.shortName}</p>
         <h2 id="organization-modal-title">{organization.name}</h2>

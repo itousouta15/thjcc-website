@@ -1,6 +1,7 @@
 export const teamGroups = [
   { id: "coordination", name: "總召組", leadLabel: "總召", deputyLabel: "副召" },
   { id: "challenges", name: "出題組", leadLabel: "組長", deputyLabel: "副組長" },
+  { id: "testing", name: "驗題組", leadLabel: "組長", deputyLabel: "副組長" },
   { id: "infrastructure", name: "網管組", leadLabel: "組長", deputyLabel: "副組長" },
   { id: "administration", name: "文書組", leadLabel: "組長", deputyLabel: "副組長" },
   { id: "design", name: "設計組", leadLabel: "組長", deputyLabel: "副組長" },
@@ -22,7 +23,7 @@ export type TeamSocialLink = {
 export type TeamMember = {
   id: string;
   name: string;
-  /** Public image path, for example /images/team-name.webp. Null shows initials. */
+  /** Public image path, for example /images/team-name.webp. Null shows the THJCC icon. */
   image: string | null;
   group: TeamGroupId;
   position: TeamPosition;
@@ -38,11 +39,15 @@ export type TeamMember = {
   largeRole?: boolean;
 };
 
-// Add the rest of the team here. Group and position control the directory badges.
+// Group and position control the directory badges.
 export const teamMembers: TeamMember[] = [
   {
     id: "pgpenguin72", name: "PGpenguin72", image: "/images/team-pgpenguin72.webp",
     group: "coordination", position: "lead", featured: true, decoration: "left",
+    additionalRoles: [
+      { group: "challenges", position: "member" },
+      { group: "infrastructure", position: "member" },
+    ],
     bio: ["咕咕嘎嘎，是一隻企鵝喔，然後還是個資安小白，但莫名其妙當了總召…?"],
     socialLinks: [
       { label: "GitHub", href: "https://github.com/PGpenguin72" },
@@ -53,14 +58,18 @@ export const teamMembers: TeamMember[] = [
   {
     id: "denny", name: "Denny", image: "/images/team-denny.webp",
     group: "challenges", position: "lead", featured: true, decoration: "denny",
-    bio: [],
-    socialLinks: [],
+    bio: ["嗨，我是剛學資安沒多久的小白，請多多指教：）"],
+    socialLinks: [
+      { label: "Website", href: "https://denny.li" },
+    ],
   },
   {
     id: "justin", name: "Justin", image: "/images/team-justin.webp",
     group: "infrastructure", position: "lead", featured: true, decoration: "justin",
-    bio: [],
-    socialLinks: [],
+    bio: ["全端開發者 缺錢，有專案想讓我賺歡迎私訊我"],
+    socialLinks: [
+      { label: "Website", href: "https://justin0711.com/" }, 
+    ],
   },
   {
     id: "twcat0503", name: "twcat0503", image: "/images/team-twcat0503.webp",
@@ -84,6 +93,66 @@ export const teamMembers: TeamMember[] = [
       { label: "Email", href: "mailto:itousouta@scaict.org" },
       { label: "Linkedin", href: "https://www.linkedin.com/in/jia-ruei-kuo-6654a6442" },
     ],
+  },
+  {
+    id: "leaf-0223", name: "Leaf_0223", image: null,
+    group: "challenges", position: "member",
+  },
+  {
+    id: "sirius-w", name: "SIRIUS-W", image: null,
+    group: "challenges", position: "member",
+  },
+  {
+    id: "xzhiyouu", name: "xzhiyouu", image: null,
+    group: "challenges", position: "member",
+  },
+  {
+    id: "蝦淇", name: "蝦淇", image: null,
+    group: "challenges", position: "member",
+  },
+  {
+    id: "jimmy", name: "jimmy", image: null,
+    group: "challenges", position: "member",
+  },
+  {
+    id: "lairay", name: "LaiRay", image: null,
+    group: "challenges", position: "member",
+  },
+  {
+    id: "eh", name: "EH", image: null,
+    group: "challenges", position: "member",
+  },
+  {
+    id: "r3x-dj", name: "R3X DJ", image: null,
+    group: "challenges", position: "member",
+  },
+  {
+    id: "cgm-97", name: "Cgm._.97", image: null,
+    group: "challenges", position: "member",
+  },
+  {
+    id: "lao-z-3", name: "LAO_Z_3", image: null,
+    group: "testing", position: "member",
+  },
+  {
+    id: "jonah", name: "jonah", image: null,
+    group: "testing", position: "member",
+  },
+  {
+    id: "steven", name: "Steven", image: null,
+    group: "infrastructure", position: "member",
+  },
+  {
+    id: "吳鑽", name: "吳鑽", image: null,
+    group: "infrastructure", position: "member",
+  },
+  {
+    id: "br3ach", name: "Br3ach", image: null,
+    group: "administration", position: "member",
+  },
+  {
+    id: "凡", name: "凡", image: null,
+    group: "administration", position: "member",
   },
 ];
 

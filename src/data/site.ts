@@ -15,6 +15,8 @@ export const site = {
   links: {
     discord: "https://dc.thjcc.org/",
     instagram: "https://instagram.com/thjcc.tw",
+    threads: "https://www.threads.com/@thjcc.tw",
+    GitHub: "https://github.com/official-scint/thjcc.org",
     sponsorship: "/sponsorship",
     faq: null as string | null,
   },

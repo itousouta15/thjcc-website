@@ -4,7 +4,7 @@
 
 網站以 Next.js App Router、React 與 TypeScript 建置，依 Figma 設計實作桌面版，並延伸為適用於平板與手機的響應式官網。目前頁面內容由專案內的資料檔管理，啟動時不需要環境變數、資料庫或外部 API。
 
-Make and Design by [itouSouta](https://github.com/itousouta15)
+Made and Designed by [itousouta15](https://github.com/itousouta15)
 
 ## 目錄
 
@@ -106,6 +106,7 @@ thjcc-website/
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx            # 根版面、字型、metadata 與全域效果
+│   │   ├── template.tsx          # 每次換頁重新掛載，觸發頁面進場動畫
 │   │   ├── page.tsx              # 首頁區塊組合
 │   │   ├── globals.css           # 全域樣式與鍵盤焦點樣式
 │   │   ├── about/page.tsx        # 關於 THJCC 與聯絡入口
@@ -143,6 +144,7 @@ thjcc-website/
 │       ├── tokens.css            # 色彩、字型、間距與圓角變數
 │       ├── home.css              # 首頁版面與 RWD
 │       ├── background.css        # 背景光暈動畫
+│       ├── page-transitions.css  # 換頁淡入與子頁內容進場
 │       ├── team.css              # 團隊子頁與職位標記
 │       ├── subpage.css           # 子頁共用版型與合作單位介紹
 │       ├── sponsorship.css       # 贊助頁卡片、合作流程與 RWD
@@ -275,6 +277,7 @@ ICO 的所有尺寸均使用 32-bit DIB 格式，保留透明度與透明遮罩�
 
 - **桌面捲動**：寬度至少 768px 且未啟用「減少動態效果」時，動態載入 Lenis，使用 `wheelMultiplier: 0.8`、`lerp: 0.1` 與 `autoRaf: true`。
 - **頁內導覽**：桌面錨點由 Lenis 處理，更新網址 hash，捲動完成後將焦點移至目的區塊。導覽列避讓間距透過 `--header-scroll-offset` 設定。
+- **頁面切換**：由 App Router 的 `template.tsx` 在每次切換頁面時觸發主要內容 320ms 淡入，子頁標題與內容另有 360ms、10px 的輕微上移進場。品牌標誌的站內跨頁連結也使用 Next.js Link。頁內錨點不重播進場動畫；啟用「減少動態效果」時不播放換頁動畫。
 - **Hero 標誌**：依捲動進度線性縮小、移至介紹標題右側；僅保留捲動動畫，不套用滑鼠視差。桌面直接訂閱 Lenis 同一幀的更新，手機沿用原生捲動事件搭配 `requestAnimationFrame`。初始尺寸和位置由 CSS 排列，避免重新整理時跳動。
 - **贊助按鈕**：桌面導覽與手機選單使用白色膠囊按鈕，滑過或鍵盤聚焦時呈現光澤掃過與陰影變化，按下時輕微縮小；滑過時維持原位。啟用「減少動態效果」時停用掃光及縮放。
 - **背景動畫**：寬度至少 768px 時，光暈在原點半徑 120px 內隨機選擇目標，以平滑曲線慢速移動，每段至少 24 秒；範圍與速度可在 `AnimatedBackground.tsx` 的 `DRIFT_RADIUS`、`DRIFT_SPEED`、`MIN_DRIFT_DURATION` 調整，光暈覆蓋範圍也會隨半徑擴大。使用 Web Animations API 執行，不需要逐幀更新 React 狀態。捲動期間與分頁隱藏時暫停，停止捲動約 160ms 後從原進度繼續；手機光暈維持靜態。
@@ -287,6 +290,8 @@ ICO 的所有尺寸均使用 32-bit DIB 格式，保留透明度與透明遮罩�
 成員介紹彈窗可由滑鼠、觸控或鍵盤 Enter／Space 開啟，支援 Esc、關閉按鈕、點擊背景及 Tab／Shift+Tab 焦點循環。開啟時鎖定背景捲動並暫停 Lenis，關閉後恢復捲動與觸發成員的焦點。
 
 單位介紹使用原生 `<dialog>`，支援關閉按鈕、Esc、點擊背景，以及 Tab／Shift+Tab 焦點循環。開啟時鎖定背景捲動，並透過 `thjcc:scroll-lock` 事件暫停 Lenis；關閉後恢復捲動與觸發按鈕的焦點。外部網站連結另開分頁並設定 `noopener noreferrer`。
+
+成員介紹、單位介紹與帽子彩蛋共用 `src/lib/use-animated-dialog.ts` 管理開關、捲動鎖定與焦點。背景遮罩在 240ms 內淡入並由 0px 模糊到 8px，關閉時反向退場；等待視窗與背景的實際動畫完成後才呼叫 `dialog.close()`，再移除內容與解除捲動鎖定。Esc、點擊背景、關閉按鈕及彩蛋重設皆使用同一套退場流程。「減少動態效果」設定會停用彈窗過場。
 
 ## 檢查與驗收
 

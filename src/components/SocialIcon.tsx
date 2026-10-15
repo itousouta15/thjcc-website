@@ -13,6 +13,7 @@ function getIcon(href: string, label: string) {
   if (hostname === "github.com" || hostname.endsWith(".github.com")) return "github";
   if (hostname === "linkedin.com" || hostname.endsWith(".linkedin.com")) return "linkedin";
   if (hostname === "instagram.com" || hostname.endsWith(".instagram.com")) return "instagram";
+  if (hostname === "threads.com" || hostname === "threads.net") return "threads";
   if (hostname === "discord.com" || hostname === "discord.gg" || /discord/i.test(label)) return "discord";
   return "website";
 }

@@ -1,29 +1,18 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useId, useState, type CSSProperties } from "react";
 import { ModalCloseButton } from "./ModalCloseButton";
+import { useAnimatedDialog } from "@/lib/use-animated-dialog";
 
 const FLAG = "THJCC{H4TS_1N_SYNC}";
 
 export function TeamHatEasterEgg({ open, onClose, onReset }: { open: boolean; onClose: () => void; onReset: () => void }) {
-  const modal = useRef<HTMLDialogElement>(null);
+  const { modal, requestClose } = useAnimatedDialog(open, onClose);
   const id = useId();
   const [copyStatus, setCopyStatus] = useState("");
 
   useEffect(() => {
-    const dialog = modal.current;
-    if (!open || !dialog) return;
-    const trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    setCopyStatus("");
-    dialog.showModal();
-    window.dispatchEvent(new CustomEvent("thjcc:scroll-lock", { detail: true }));
-    return () => {
-      if (dialog.open) dialog.close();
-      window.dispatchEvent(new CustomEvent("thjcc:scroll-lock", { detail: false }));
-      if (trigger?.isConnected && (document.activeElement === document.body || dialog.contains(document.activeElement))) {
-        trigger.focus({ preventScroll: true });
-      }
-    };
+    if (open) setCopyStatus("");
   }, [open]);
 
   if (!open) return null;
@@ -40,28 +29,9 @@ export function TeamHatEasterEgg({ open, onClose, onReset }: { open: boolean; on
 
   return (
     <dialog ref={modal} className="organization-modal team-hat-easter-egg" aria-labelledby={`${id}-title`}
-      aria-describedby={`${id}-description`} onClose={onClose} data-lenis-prevent
-      onKeyDown={event => {
-        if (event.key !== "Tab" || event.ctrlKey || event.metaKey || event.altKey) return;
-        const controls = [...event.currentTarget.querySelectorAll<HTMLButtonElement>("button")];
-        const first = controls[0];
-        const last = controls[controls.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last?.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first?.focus();
-        }
-      }}
-      onClick={event => {
-        if (event.target !== event.currentTarget) return;
-        const bounds = event.currentTarget.getBoundingClientRect();
-        if (event.clientX < bounds.left || event.clientX > bounds.right
-          || event.clientY < bounds.top || event.clientY > bounds.bottom) event.currentTarget.close();
-      }}>
+      aria-describedby={`${id}-description`} data-lenis-prevent>
       <div className="organization-modal-panel">
-        <ModalCloseButton label="關閉彩蛋" onClick={() => modal.current?.close()} />
+        <ModalCloseButton label="關閉彩蛋" onClick={() => requestClose()} />
         <div className="team-hat-sparks" aria-hidden="true">
           {Array.from({ length: 8 }, (_, index) => (
             <span key={index} style={{ "--spark": index } as CSSProperties}>✦</span>
@@ -75,7 +45,7 @@ export function TeamHatEasterEgg({ open, onClose, onReset }: { open: boolean; on
         <code className="team-hat-flag">{FLAG}</code>
         <div className="team-hat-actions">
           <button className="team-hat-copy" type="button" onClick={copyFlag}>複製紀念 Flag</button>
-          <button className="team-hat-reset" type="button" onClick={onReset}>重設帽子，再玩一次</button>
+          <button className="team-hat-reset" type="button" onClick={() => requestClose(onReset)}>重設帽子，再玩一次</button>
         </div>
         <p className="team-hat-copy-status" role="status">{copyStatus}</p>
       </div>

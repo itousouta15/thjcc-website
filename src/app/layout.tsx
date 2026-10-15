@@ -44,9 +44,28 @@ const bitcount = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://thjcc.org"),
   title: "THJCC 4｜第四屆臺灣高中職聯合資安競賽",
   description: "THJCC CTF 臺灣高中職聯合資安競賽，由學生自主籌辦，推廣資訊安全教育，讓全臺學生互相學習、切磋與交流。",
   applicationName: "THJCC",
+  openGraph: {
+    type: "website",
+    locale: "zh_TW",
+    siteName: "THJCC",
+    images: [{
+      url: "/images/OG.png",
+      width: 1200,
+      height: 630,
+      alt: "THJCC 4｜第四屆臺灣高中職聯合資安競賽",
+    }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [{
+      url: "/images/OG.png",
+      alt: "THJCC 4｜第四屆臺灣高中職聯合資安競賽",
+    }],
+  },
   manifest: "/site.webmanifest",
   icons: {
     icon: [
