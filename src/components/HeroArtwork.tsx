@@ -197,7 +197,7 @@ export function HeroArtwork() {
   return (
     <div className="hero-art" ref={artwork} aria-hidden="true" data-node-id="76:232">
       <Image src="/images/THJCC.png" alt="" width={2070} height={1707} priority
-        sizes="(max-width: 767px) 90vw, (max-width: 1023px) 520px, 675px" />
+        sizes="(max-width: 767px) min(440px, 74vw), (max-width: 1023px) 520px, 675px" />
     </div>
   );
 }

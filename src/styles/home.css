@@ -1100,8 +1100,8 @@
   }
 
   .hero-art {
-    top: calc(920px - 23px - min(510px, 88vw) * 1707 / 2070);
-    width: min(510px, 88vw);
+    top: calc(920px - 160px - min(440px, 74vw) * 1707 / 2070);
+    width: min(440px, 74vw);
     height: auto;
   }
 
@@ -1337,8 +1337,8 @@
   }
 
   .hero-art {
-    top: calc(800px - 20px - 90vw * 1707 / 2070);
-    width: 90vw;
+    top: calc(800px - 140px - 74vw * 1707 / 2070);
+    width: 74vw;
   }
 
   .section-title {
