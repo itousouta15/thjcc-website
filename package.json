@@ -5,14 +5,19 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cloudflare": "opennextjs-cloudflare build",
+    "deploy": "opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "lint": "next lint",
+    "lint": "eslint . --ext .js,.mjs,.ts,.tsx",
     "icons:generate": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
     "lenis": "1.3.25",
-    "next": "14.2.35",
+    "@opennextjs/cloudflare": "1.20.12",
+    "next": "15.5.28",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "sharp": "^0.34.5"
@@ -22,7 +27,8 @@
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
     "eslint": "^8.57.1",
-    "eslint-config-next": "14.2.35",
-    "typescript": "^5.7.0"
+    "eslint-config-next": "15.5.28",
+    "typescript": "^5.7.0",
+    "wrangler": "4.151.0"
   }
 }

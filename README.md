@@ -50,13 +50,14 @@ Made and Designed by [itousouta15](https://github.com/itousouta15)
 
 | 技術 | 版本／用途 |
 | --- | --- |
-| Next.js | 14.2.35，App Router、頁面中繼資料、圖片與本機字型載入 |
+| Next.js | 15.5.28，App Router、頁面中繼資料、圖片與本機字型載入 |
 | React / React DOM | 18.3.1，頁面元件與互動狀態 |
 | TypeScript | 5.9.3（lockfile 鎖定版本），嚴格型別檢查 |
 | Lenis | 1.3.25，桌面慣性捲動與頁內導覽 |
 | Sharp | 0.34 系列，Next.js 圖片最佳化 |
 | CSS | 原生 CSS、CSS custom properties 與響應式版面 |
 | ESLint | 8.57 系列，使用 `next/core-web-vitals` 規則 |
+| OpenNext / Wrangler | 1.20.12 / 4.151.0，Cloudflare Workers 建置與部署 |
 
 相依套件範圍定義於 [`package.json`](./package.json)，實際安裝版本由 [`package-lock.json`](./package-lock.json) 鎖定。
 
@@ -91,9 +92,13 @@ npm run dev -- --port 3001
 | `npm ci` | 依 lockfile 安裝相依套件，適合首次設定與 CI |
 | `npm run dev` | 啟動開發伺服器 |
 | `npm run typecheck` | 執行 `tsc --noEmit`，檢查 TypeScript 型別 |
-| `npm run lint` | 執行 `next lint`，檢查程式碼規則 |
+| `npm run lint` | 執行 ESLint，檢查程式碼規則 |
 | `npm run icons:generate` | 從 `public/images/THJCC.webp` 重新產生 ICO 與裝置圖示 |
 | `npm run build` | 建立正式版產物，輸出至 `.next/` |
+| `npm run build:cloudflare` | 執行 Next.js 建置，並轉換為 `.open-next/` 的 Workers 產物 |
+| `npm run deploy` | 將已建置的 `.open-next/` 產物部署至 Cloudflare Workers |
+| `npm run preview` | 建置並以本機 Workers 執行環境預覽 |
+| `npm run cf-typegen` | 依 Wrangler 設定產生 Cloudflare binding 型別 |
 | `npm start` | 啟動正式版伺服器，須先完成建置 |
 
 ## 專案結構
@@ -151,6 +156,8 @@ thjcc-website/
 │       └── modal.css             # 單位介紹彈窗樣式
 ├── .eslintrc.json                 # ESLint 設定
 ├── next.config.mjs                # Next.js 設定
+├── open-next.config.ts            # Cloudflare OpenNext adapter 設定
+├── wrangler.jsonc                 # Worker、靜態素材與圖片 binding 設定
 ├── package.json                   # 套件與開發指令
 ├── package-lock.json              # 相依套件鎖定檔
 └── tsconfig.json                  # TypeScript 與 @/* 路徑別名
@@ -345,6 +352,34 @@ npm start -- --port 3001
 Vercel 等具備 Next.js 整合的平台可由框架預設處理產物與啟動流程。自行部署時，需保留建置後的 `.next/`、`public/`、執行所需的套件與設定檔，並以常駐服務管理正式版伺服器。
 
 目前 `next.config.mjs` 啟用 React Strict Mode 並關閉 `X-Powered-By` 標頭，未設定靜態匯出或 `standalone` 輸出。部署方式應支援 Next.js 執行環境；僅將 `public/` 上傳至靜態主機不會產生完整網站。
+
+### Cloudflare Workers
+
+專案已固定相容的 Next.js、OpenNext 與 Wrangler 版本，並在 [`wrangler.jsonc`](./wrangler.jsonc) 設定 Worker 名稱 `thjcc-org`、Node.js 相容模式、靜態素材與圖片最佳化 binding。
+
+在 Cloudflare 的 **Workers & Pages → thjcc-org → Settings → Build** 設定：
+
+| 項目 | 設定 |
+| --- | --- |
+| 根目錄 | 儲存庫根目錄 |
+| 安裝指令 | `npm ci`（平台自動安裝相依套件） |
+| 建置指令 | `npm run build:cloudflare` |
+| 部署指令 | `npm run deploy` |
+| Worker 名稱 | `thjcc-org` |
+
+`build:cloudflare` 已包含 `next build`，並會產生 `.open-next/worker.js` 與 `.open-next/assets/`。Cloudflare 的建置指令必須使用此指令，才能在部署前取得完整 Workers 產物。
+
+本機手動部署：
+
+```sh
+npm ci
+npm run build:cloudflare
+npm run deploy
+```
+
+本機需先登入 Wrangler，或在 CI 提供具有部署權限的 `CLOUDFLARE_API_TOKEN` 與 `CLOUDFLARE_ACCOUNT_ID`；Workers Builds 的 Git 整合會管理部署認證。預覽使用 `npm run preview`，Windows 建議在 WSL 執行 OpenNext。
+
+`next/image` 在 Workers 使用 `IMAGES` binding，由 Cloudflare Images 進行轉換；帳號需可使用 Images binding，額度與費用依 Cloudflare Images 方案計算。`public/_headers` 為帶雜湊的 Next.js 靜態素材設定一年快取。內容於建置時產生，目前未使用 ISR 或外部資料快取，因此不需要 R2 bucket。
 
 ### GitHub Actions 自動部署至 Vercel
 

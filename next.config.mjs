@@ -13,7 +13,7 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.svg$/i,
       resourceQuery: /inline/,
-      // Next 14 sets a shared asset filename generator; use asset with forced
+      // Next.js sets a shared asset filename generator; use asset with forced
       // inlining so its generator remains compatible with Webpack's schema.
       type: "asset",
       parser: { dataUrlCondition: () => true },

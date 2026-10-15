@@ -1,3 +1,4 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "ignorePatterns": [".next/", ".open-next/", ".wrangler/", "cloudflare-env.d.ts", "next-env.d.ts"]
 }
