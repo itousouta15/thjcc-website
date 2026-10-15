@@ -372,6 +372,8 @@ Vercel 等具備 Next.js 整合的平台可由框架預設處理產物與啟動�
 
 `build:cloudflare` 已包含 `next build`，並會產生 `.open-next/worker.js` 與 `.open-next/assets/`。Cloudflare 的建置指令必須使用此指令，才能在部署前取得完整 Workers 產物。
 
+若部署時出現 `Could not find compiled Open Next config, did you run the build command?`，先檢查建置紀錄中的 `Executing user build command`。若顯示 `npm run build`，代表只完成 Next.js 建置，尚未產生 OpenNext 的編譯設定與 Workers 產物。請到上述 Cloudflare Build 設定將建置指令改為 `npm run build:cloudflare`、部署指令設為 `npm run deploy`，儲存後重新部署。儲存庫內的 scripts 不會自動更新 Dashboard 已儲存的建置指令。
+
 本機手動部署：
 
 ```sh
