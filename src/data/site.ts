@@ -20,13 +20,17 @@ export const site = {
 };
 
 export const navigation: SiteLink[] = [
-  { label: "賽事介紹", href: "#about" },
-  { label: "團隊成員", href: "#team" },
-  { label: "合作夥伴", href: "#partners" }
+  { label: "關於 THJCC", href: "/about" },
+  { label: "籌備團隊", href: "/team" },
+  { label: "合作夥伴", href: "/partners" },
 ];
 
-export const aboutCopy =
-  "THJCC CTF 是一場專為臺灣高中職生打造的資安競賽，由 SCINT 北臺灣學生資訊社群 、 SCAICT 中部高中電資社團聯合會議及 SCIST 南臺灣學生資訊社群與全國志同道合的學生共同主辦，並獲得國內多個資安組織與單位的支持。核心宗旨在於推廣資訊安全教育，培養高中生對資安技術的興趣與實作能力，同時提供全臺學生互相學習、切磋與交流的平台。";
+export const aboutParagraphs = [
+  "THJCC CTF 是一場專為臺灣高中職生打造的資安競賽，由 SCINT 北臺灣學生資訊社群 、 SCAICT 中部高中電資社團聯合會議及 SCIST 南臺灣學生資訊社群與全國志同道合的學生共同主辦，並獲得國內多個資安組織與單位的支持。",
+  "核心宗旨在於推廣資訊安全教育，培養高中生對資安技術的興趣與實作能力，同時提供全臺學生互相學習、切磋與交流的平台。",
+];
+
+export const aboutCopy = aboutParagraphs.join("");
 
 export type Organization = {
   id: "scint" | "scaict" | "scist" | "hitcon" | "ocf" | "ncse";

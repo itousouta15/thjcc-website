@@ -66,7 +66,7 @@ export function TeamHatEasterEgg({ open, onClose, onReset }: { open: boolean; on
           ))}
         </div>
         <p className="team-hat-achievement">隱藏彩蛋解鎖</p>
-        <h2 id={`${id}-title`}>全員帽子對齊！</h2>
+        <h2 id={`${id}-title`}>帽子戴好，別歪了</h2>
         <p className="team-hat-easter-egg-copy" id={`${id}-description`}>
           你把大家的帽子轉到同一個方向，解鎖了官網的隱藏成就。這枚紀念 Flag 是你的探索紀錄，複製後和朋友分享這個小彩蛋吧！
         </p>

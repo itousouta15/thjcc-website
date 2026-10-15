@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { site } from "@/data/site";
+import { navigation, site } from "@/data/site";
 import { Brand } from "./Brand";
 import { ConfiguredLink } from "./ConfiguredLink";
 import { SocialLinks } from "./SocialLinks";
@@ -11,8 +10,8 @@ export function SiteFooter({ homeHref = "#top" }: { homeHref?: string }) {
         <div className="footer-columns">
           <nav className="footer-column" aria-label="頁尾連結">
             <h2>連結</h2>
-            <a href={homeHref}>首頁</a>
-            <Link href="/team">籌備團隊</Link>
+            <ConfiguredLink href={homeHref}>首頁</ConfiguredLink>
+            {navigation.map(link => <ConfiguredLink key={link.label} href={link.href}>{link.label}</ConfiguredLink>)}
           </nav>
           <div className="footer-column">
             <h2>支持我們</h2>

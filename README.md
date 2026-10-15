@@ -1,8 +1,8 @@
 # THJCC Website
 
-第四屆臺灣高中職聯合資安競賽（THJCC 4）的形象網站，提供賽事介紹、籌備團隊、主辦與協辦單位資訊，以及社群與聯絡入口。
+臺灣高中職聯合資安競賽（THJCC）的常駐官網，提供籌辦理念、籌備團隊、合作單位介紹，以及社群與聯絡入口。目前首頁使用第四屆主視覺。
 
-網站以 Next.js App Router、React 與 TypeScript 建置，依 Figma 設計實作桌面版，並延伸為適用於平板與手機的單頁網站。目前頁面內容由專案內的資料檔管理，啟動時不需要環境變數、資料庫或外部 API。
+網站以 Next.js App Router、React 與 TypeScript 建置，依 Figma 設計實作桌面版，並延伸為適用於平板與手機的響應式官網。目前頁面內容由專案內的資料檔管理，啟動時不需要環境變數、資料庫或外部 API。
 
 Make by [itouSouta](https://github.com/itousouta15)
 
@@ -25,16 +25,24 @@ Make by [itouSouta](https://github.com/itousouta15)
 
 | 區塊 | 內容 |
 | --- | --- |
-| 導覽列 | 品牌標誌、頁內導覽與手機版選單 |
+| 導覽列 | 品牌標誌回首頁，連至關於 THJCC、籌備團隊、合作夥伴，並標示目前頁面 |
 | Hero | THJCC 4 主視覺、金屬標誌、賽事名稱與社群入口 |
 | 賽事介紹 | 競賽宗旨與學生自主籌辦的介紹 |
 | 籌備團隊 | 五位籌備成員的職務、名稱與頭像 |
 | 成員介紹彈窗 | 點選首頁或團隊子頁的成員，查看自我介紹與社群連結 |
 | 支持單位 | 三個主辦單位、兩個協辦單位與一個合作單位 |
 | 單位介紹彈窗 | 單位摘要、主要領域與官方網站連結 |
-| 頁尾 | 頁內連結、贊助入口、聯絡信箱與社群連結 |
+| 頁尾 | 首頁與子頁連結、贊助入口、聯絡信箱與社群連結 |
 
-頁內導覽使用 `#about`、`#team`、`#partners` 錨點，`#top` 可回到頁面頂端。FAQ 與贊助入口的設定方式見[目前連結狀態](#目前連結狀態)。
+主導覽使用 `/about`、`/team`、`/partners` 三個子頁，首頁各區摘要也提供完整內容的入口。首頁的 `#about`、`#team`、`#partners` 為頁內錨點，`#top` 可回到頁面頂端。FAQ 與贊助入口的設定方式見[目前連結狀態](#目前連結狀態)。
+
+| 路徑 | 內容來源 |
+| --- | --- |
+| `/about` | `src/data/site.ts` 的 `aboutParagraphs`、主辦社群名單與聯絡資訊 |
+| `/team` | `src/data/team.ts` 的分組、成員、自我介紹與社群連結 |
+| `/partners` | `src/data/site.ts` 的單位分類與 `src/data/organizationDetails.ts` 的完整介紹 |
+
+三個子頁共用 `SubpageLayout.tsx` 與 `src/styles/subpage.css`，導覽項目集中在 `src/data/site.ts` 的 `navigation`。站內路由透過 Next.js Link 切換，首頁與分組的頁內錨點則沿用平滑捲動。
 
 ## 技術組成
 
@@ -97,9 +105,13 @@ thjcc-website/
 │   │   ├── layout.tsx            # 根版面、字型、metadata 與全域效果
 │   │   ├── page.tsx              # 首頁區塊組合
 │   │   ├── globals.css           # 全域樣式與鍵盤焦點樣式
-│   │   └── team/page.tsx         # 完整團隊分組子頁
+│   │   ├── about/page.tsx        # 關於 THJCC 與聯絡入口
+│   │   ├── team/page.tsx         # 完整團隊分組子頁
+│   │   └── partners/page.tsx     # 合作單位完整介紹
 │   ├── components/
 │   │   ├── SiteHeader.tsx        # 桌面與手機導覽入口
+│   │   ├── SubpageLayout.tsx     # 子頁共用頁首、標題、頁尾
+│   │   ├── ContactPanel.tsx      # 聯絡資訊與合作入口
 │   │   ├── MobileNavigation.tsx  # 手機選單互動
 │   │   ├── HeroSection.tsx       # 主視覺文字與行動連結
 │   │   ├── HeroArtwork.tsx       # 金屬標誌與線性捲動動畫
@@ -110,6 +122,7 @@ thjcc-website/
 │   │   ├── TeamMemberModal.tsx   # 成員自我介紹與社群連結
 │   │   ├── PartnersSection.tsx   # 單位卡片與彈窗狀態
 │   │   ├── OrganizationModal.tsx # 單位介紹對話框
+│   │   ├── OrganizationLogo.tsx  # 首頁、子頁與 Modal 共用單位 Logo
 │   │   ├── AnimatedBackground.tsx # 動態背景與滑鼠互動
 │   │   ├── SmoothScroll.tsx      # Lenis 與錨點捲動
 │   │   ├── ConfiguredLink.tsx    # 正式／待設定連結的共用處理
@@ -125,6 +138,7 @@ thjcc-website/
 │       ├── home.css              # 首頁版面與 RWD
 │       ├── background.css        # 光暈與點陣動畫
 │       ├── team.css              # 團隊子頁與職位標記
+│       ├── subpage.css           # 子頁共用版型與合作單位介紹
 │       └── modal.css             # 單位介紹彈窗樣式
 ├── .eslintrc.json                 # ESLint 設定
 ├── next.config.mjs                # Next.js 設定

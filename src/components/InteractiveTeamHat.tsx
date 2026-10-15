@@ -31,6 +31,7 @@ export function InteractiveTeamHat({ member, angle, unlocked, onChange }: Props)
     const x = avatar.left + avatar.width / 2;
     const y = avatar.top + avatar.height / 2;
     const orbit = Math.atan2(hat.top + hat.height / 2 - y, hat.left + hat.width / 2 - x) * 180 / Math.PI;
+    const viewportWidth = document.documentElement.clientWidth;
     let targetOrbit = -90;
     for (let attempt = 0; attempt < 16; attempt++) {
       const candidate = -140 + Math.random() * 100;
@@ -38,7 +39,7 @@ export function InteractiveTeamHat({ member, angle, unlocked, onChange }: Props)
       const corners = [[hat.left, hat.top], [hat.right, hat.top], [hat.left, hat.bottom], [hat.right, hat.bottom]];
       const fits = corners.every(([left, top]) => {
         const rotatedX = x + (left - x) * Math.cos(delta) - (top - y) * Math.sin(delta);
-        return rotatedX >= 6 && rotatedX <= window.innerWidth - 6;
+        return rotatedX >= 6 && rotatedX <= viewportWidth - 6;
       });
       if (fits) {
         targetOrbit = candidate;

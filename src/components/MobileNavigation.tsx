@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { navigation, type SiteLink } from "@/data/site";
 import { ConfiguredLink } from "./ConfiguredLink";
 
-export function MobileNavigation({ links = navigation }: { links?: SiteLink[] }) {
+export function MobileNavigation({ links = navigation, currentPath }: { links?: SiteLink[]; currentPath?: string }) {
   const [open, setOpen] = useState(false);
   const menuId = useId();
   const root = useRef<HTMLDivElement>(null);
@@ -41,7 +41,7 @@ export function MobileNavigation({ links = navigation }: { links?: SiteLink[] })
         ref={element => { element?.toggleAttribute("inert", !open); }}>
         <div className="mobile-menu-links">
           {links.map(link => (
-            <ConfiguredLink key={link.label} href={link.href} onClick={() => setOpen(false)}>
+            <ConfiguredLink key={link.label} href={link.href} current={currentPath === link.href} onClick={() => setOpen(false)}>
               {link.label}
             </ConfiguredLink>
           ))}
