@@ -168,7 +168,7 @@ thjcc-website/
 | --- | --- |
 | `site` | 中英文名稱、聯絡信箱、Discord、Instagram、FAQ 與贊助連結 |
 | `navigation` | 導覽項目的標籤與目的地 |
-| `pastWebsites` | 頁尾歷年網站的名稱與網址，目前收錄 2026 與 2026 夏季賽；新增屆次時加入陣列即可 |
+| `pastWebsites` | 頁尾歷年網站的名稱與網址，目前收錄 2027（本站）、2026 與 2026 夏季賽；新增屆次時加入陣列即可 |
 | `aboutCopy` | 賽事介紹內文 |
 | `team` | 首頁精選成員，由 `src/data/team.ts` 匯出 |
 | `organizers` | 主辦單位 |

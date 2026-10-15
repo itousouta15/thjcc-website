@@ -30,6 +30,7 @@ export const navigation: SiteLink[] = [
 ];
 
 export const pastWebsites = [
+  { label: "2027（本站）", href: "/" },
   { label: "2026", href: "https://thjcc.org/2026" },
   { label: "2026 夏季賽", href: "https://thjcc.org/2026-summer/" },
 ];

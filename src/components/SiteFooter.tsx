@@ -15,12 +15,15 @@ export function SiteFooter({ homeHref = "#top" }: { homeHref?: string }) {
           </nav>
           <nav className="footer-column" aria-label="歷年網站">
             <h2>歷年網站</h2>
-            {pastWebsites.map(website => (
-              <ConfiguredLink key={website.href} href={website.href} className="footer-archive-link"
-                label={`${website.label} 歷年網站（另開視窗）`}>
-                {website.label} <span aria-hidden="true">↗</span>
-              </ConfiguredLink>
-            ))}
+            {pastWebsites.map(website => {
+              const external = /^https?:\/\//i.test(website.href);
+              return (
+                <ConfiguredLink key={website.href} href={website.href} className="footer-archive-link"
+                  label={`${website.label} 歷年網站${external ? "（另開視窗）" : ""}`}>
+                  {website.label} {external && <span aria-hidden="true">↗</span>}
+                </ConfiguredLink>
+              );
+            })}
           </nav>
           <div className="footer-column">
             <h2>支持我們</h2>
