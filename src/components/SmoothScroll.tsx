@@ -2,6 +2,7 @@
 
 import type Lenis from "lenis";
 import { useEffect } from "react";
+import { publishSmoothScroll, setSmoothScrollActive } from "@/lib/smooth-scroll";
 
 const SCROLL_OPTIONS = { wheelMultiplier: 0.8, lerp: 0.1, autoRaf: true };
 
@@ -16,12 +17,16 @@ export function SmoothScroll() {
     // Load the same Lenis version and wheel parameters as itouSouta.me.
     const syncPreference = () => {
       const request = ++generation;
+      setSmoothScrollActive(false);
       lenis?.destroy();
       lenis = null;
       if (!desktop.matches || reducedMotion.matches) return;
       void import("lenis").then(({ default: Lenis }) => {
         if (request !== generation) return;
         lenis = new Lenis(SCROLL_OPTIONS);
+        lenis.on("scroll", instance => publishSmoothScroll(instance.actualScroll));
+        setSmoothScrollActive(true);
+        publishSmoothScroll(lenis.actualScroll);
         if (locked) lenis.stop();
       });
     };
@@ -59,6 +64,7 @@ export function SmoothScroll() {
     window.addEventListener("thjcc:scroll-lock", onScrollLock);
     return () => {
       generation++;
+      setSmoothScrollActive(false);
       lenis?.destroy();
       desktop.removeEventListener("change", syncPreference);
       reducedMotion.removeEventListener("change", syncPreference);

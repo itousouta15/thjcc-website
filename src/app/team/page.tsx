@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SubpageLayout } from "@/components/SubpageLayout";
 import { TeamMemberList } from "@/components/TeamMemberList";
-import { teamGroups, teamMembers, type TeamPosition } from "@/data/team";
+import { getTeamMemberships, teamGroups, teamMembers, type TeamPosition } from "@/data/team";
 import "@/styles/team.css";
 
 export const metadata: Metadata = {
@@ -20,8 +20,12 @@ export default function TeamPage() {
           </nav>
 
           {teamGroups.map(group => {
-            const members = teamMembers.filter(member => member.group === group.id)
-              .sort((a, b) => positionOrder[a.position] - positionOrder[b.position]);
+            const members = teamMembers.filter(member => getTeamMemberships(member).some(role => role.group === group.id))
+              .sort((a, b) => {
+                const aRole = getTeamMemberships(a).find(role => role.group === group.id)!;
+                const bRole = getTeamMemberships(b).find(role => role.group === group.id)!;
+                return positionOrder[aRole.position] - positionOrder[bRole.position];
+              });
             return (
               <section className="team-directory-group" id={`team-group-${group.id}`}
                 aria-labelledby={`team-group-title-${group.id}`} key={group.id}>
@@ -29,7 +33,7 @@ export default function TeamPage() {
                   <span>{group.name}</span>
                 </h2>
                 {members.length ? (
-                  <TeamMemberList members={members} directory />
+                  <TeamMemberList members={members} directory groupId={group.id} />
                 ) : <p className="team-directory-empty">成員資料更新中。</p>}
               </section>
             );

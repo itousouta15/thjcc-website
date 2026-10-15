@@ -182,6 +182,9 @@ thjcc-website/
   image: null,                 // 之後填入 "/images/team-member.webp"
   group: "challenges",         // 分組 ID
   position: "member",          // lead / deputy / member
+  additionalRoles: [          // 選填：兼任其他組別的職務
+    { group: "infrastructure", position: "member" },
+  ],
   bio: ["第一段自我介紹。", "可以繼續加入其他段落。"],
   socialLinks: [
     { label: "GitHub", href: "https://github.com/your-account" },
@@ -200,6 +203,8 @@ thjcc-website/
 | `design` | 設計組 |
 
 `position: "lead"` 顯示組長標記，`"deputy"` 顯示副組長標記，`"member"` 為一般組員；總召組對應「總召／副召」。各組內依組長、副組長、組員排序，其餘依資料順序呈現。分組名稱與職位文字可在同檔案的 `teamGroups` 調整。
+
+兼任職務填在 `additionalRoles`，不需要重複建立成員。團隊子頁會把同一位成員列在每個參與的組別，並依該組職位顯示標記與排序；個人 Modal 列出所有職務，頭像、自我介紹與社群連結共用同一份資料。首頁精選使用主要的 `group` 與 `position`。
 
 頭像放入 `public/images/`，`image` 填完整公開路徑，例如 `/images/team-member.webp`。設為 `null` 時會顯示名字縮寫，可先建立名單再補圖。首頁精選成員另外支援 `decoration` 與 `largeRole`，樣式定義在 `src/styles/home.css`。
 
@@ -257,9 +262,9 @@ ICO 的所有尺寸均使用 32-bit DIB 格式，保留透明度與透明遮罩�
 
 - **桌面捲動**：寬度至少 768px 且未啟用「減少動態效果」時，動態載入 Lenis，使用 `wheelMultiplier: 0.8`、`lerp: 0.1` 與 `autoRaf: true`。
 - **頁內導覽**：桌面錨點由 Lenis 處理，更新網址 hash，捲動完成後將焦點移至目的區塊。導覽列避讓間距透過 `--header-scroll-offset` 設定。
-- **Hero 標誌**：依捲動進度線性縮小、移至介紹標題右側；僅保留捲動動畫，不套用滑鼠視差。初始尺寸和位置由 CSS 排列，避免重新整理時跳動。
-- **滑鼠互動**：支援滑鼠且未要求減少動態效果的裝置，背景會呈現輕微位移。
-- **背景動畫**：低對比暖白光暈與點陣由 CSS 動畫呈現。
+- **Hero 標誌**：依捲動進度線性縮小、移至介紹標題右側；僅保留捲動動畫，不套用滑鼠視差。桌面直接訂閱 Lenis 同一幀的更新，手機沿用原生捲動事件搭配 `requestAnimationFrame`。初始尺寸和位置由 CSS 排列，避免重新整理時跳動。
+- **滑鼠互動**：支援滑鼠、寬度至少 768px 且未要求減少動態效果時，背景光暈會呈現輕微位移；捲動中暫停滑鼠位移更新。
+- **背景動畫**：點陣固定顯示，不做漂移或滑鼠視差。桌面光暈在捲動期間暫停，停下約 160ms 後從原進度繼續，分頁隱藏時也會暫停；手機光暈維持靜態。
 - **減少動態效果**：遵循 `prefers-reduced-motion`，停用 Lenis、背景滑鼠位移與背景動畫。手機版使用原生捲動。
 
 ### 鍵盤操作與彈窗

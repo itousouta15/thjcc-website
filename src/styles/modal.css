@@ -200,6 +200,13 @@ html:has(.organization-modal[open]) {
   min-width: 0;
 }
 
+.team-member-roles {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 0;
+}
+
 .team-member-modal h2,
 .team-member-modal .organization-modal-copy {
   overflow-wrap: anywhere;
@@ -360,6 +367,10 @@ html:has(.organization-modal[open]) {
 
   .team-member-modal-info h2 {
     font-size: clamp(20px, 6vw, 28px);
+  }
+
+  .team-member-roles {
+    font-size: 12px;
   }
 
   .team-member-socials--header {

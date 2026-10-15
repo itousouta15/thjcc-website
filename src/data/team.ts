@@ -9,6 +9,11 @@ export const teamGroups = [
 export type TeamGroupId = typeof teamGroups[number]["id"];
 export type TeamPosition = "lead" | "deputy" | "member";
 
+export type TeamMembership = {
+  group: TeamGroupId;
+  position: TeamPosition;
+};
+
 export type TeamSocialLink = {
   label: string;
   href: string;
@@ -21,6 +26,8 @@ export type TeamMember = {
   image: string | null;
   group: TeamGroupId;
   position: TeamPosition;
+  /** Additional assignments reuse this member's image, biography, and social links. */
+  additionalRoles?: TeamMembership[];
   /** Self-introduction paragraphs shown in the member's modal. */
   bio?: string[];
   /** GitHub, Instagram, personal website, email, or other public profiles. */
@@ -68,6 +75,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "itousouta", name: "itouSouta", image: "/images/team-itousouta.webp",
     group: "design", position: "lead", featured: true, decoration: "right", largeRole: true,
+    additionalRoles: [{ group: "infrastructure", position: "member" }],
     bio: ["SCAICT第五屆會長，一個喜歡 VOCALOID 和畫畫的可悲高三牲，BTW 我是這個網站的主要設計者及開發者。設計組沒招到人啊QAQ"],
     socialLinks: [
       { label: "個人網站", href: "https://itousouta.me/" },
@@ -79,14 +87,19 @@ export const teamMembers: TeamMember[] = [
   },
 ];
 
-export function getTeamPositionLabel(member: TeamMember) {
+export function getTeamMemberships(member: TeamMember): TeamMembership[] {
+  const memberships = [{ group: member.group, position: member.position }, ...(member.additionalRoles ?? [])];
+  return memberships.filter((membership, index) => memberships.findIndex(role => role.group === membership.group) === index);
+}
+
+export function getTeamPositionLabel(member: TeamMembership) {
   const group = teamGroups.find(group => group.id === member.group)!;
   if (member.position === "lead") return group.leadLabel;
   if (member.position === "deputy") return group.deputyLabel;
   return "組員";
 }
 
-export function getTeamMemberRole(member: TeamMember) {
+export function getTeamMemberRole(member: TeamMembership) {
   const group = teamGroups.find(group => group.id === member.group)!;
   const position = getTeamPositionLabel(member);
   return member.group === "coordination" ? position : `${group.name.slice(0, -1)}${position}`;

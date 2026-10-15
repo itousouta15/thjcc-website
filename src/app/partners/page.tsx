@@ -30,7 +30,6 @@ export default function PartnersPage() {
                   <li className="partner-profile" id={organization.id} key={organization.id}>
                     <div className="partner-profile-logo" aria-hidden="true"><OrganizationLogo id={organization.id} /></div>
                     <article className="partner-profile-content" aria-labelledby={`partner-${organization.id}-title`}>
-                      <p className="partner-profile-category">{details.category} · {details.shortName}</p>
                       <h3 id={`partner-${organization.id}-title`}>{organization.name}</h3>
                       {details.paragraphs.map(paragraph => <p className="subpage-copy" key={paragraph}>{paragraph}</p>)}
                       <ul className="partner-profile-highlights" aria-label="主要領域">

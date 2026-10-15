@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
-import { getTeamMemberRole, teamGroups, type TeamMember } from "@/data/team";
+import { getTeamMemberRole, getTeamMemberships, type TeamMember } from "@/data/team";
 import { TeamAvatar } from "./TeamAvatar";
 import { ModalCloseButton } from "./ModalCloseButton";
 import { TeamMemberSocialLinks } from "./TeamMemberSocialLinks";
@@ -28,7 +28,7 @@ export function TeamMemberModal({ member, onClose }: { member: TeamMember | null
   }, [member]);
 
   if (!member) return null;
-  const group = teamGroups.find(group => group.id === member.group)!;
+  const roleSummary = getTeamMemberships(member).map(getTeamMemberRole).join(" · ");
   const bio = member.bio?.filter(paragraph => paragraph.trim()) ?? [];
   const socialLinks = member.socialLinks?.filter(link => /^(https?:\/\/|mailto:)/i.test(link.href)) ?? [];
 
@@ -62,7 +62,7 @@ export function TeamMemberModal({ member, onClose }: { member: TeamMember | null
             <TeamAvatar member={member} sizes="(max-width: 767px) 96px, 144px" />
           </div>
           <div className="team-member-modal-info">
-            <p className="organization-modal-category">{group.name} · {getTeamMemberRole(member)}</p>
+            <p className="organization-modal-category team-member-roles" title={roleSummary}>{roleSummary}</p>
             <h2 id={titleId}>{member.name}</h2>
             <TeamMemberSocialLinks name={member.name} links={socialLinks} placement="header" />
           </div>

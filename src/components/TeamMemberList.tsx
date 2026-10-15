@@ -2,16 +2,17 @@
 
 import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { getTeamMemberRole, getTeamPositionLabel, type TeamMember } from "@/data/team";
+import { getTeamMemberRole, getTeamMemberships, getTeamPositionLabel, type TeamGroupId, type TeamMember } from "@/data/team";
 import { TeamAvatar } from "./TeamAvatar";
 import { TeamMemberModal } from "./TeamMemberModal";
 import { InteractiveTeamHat } from "./InteractiveTeamHat";
 import { TeamHatEasterEgg } from "./TeamHatEasterEgg";
 import { areHatsAligned, getInitialHatAngle, normalizeHatAngle } from "@/lib/team-hats";
 
-export function TeamMemberList({ members, directory = false, achievementTargetId }: {
+export function TeamMemberList({ members, directory = false, groupId, achievementTargetId }: {
   members: readonly TeamMember[];
   directory?: boolean;
+  groupId?: TeamGroupId;
   achievementTargetId?: string;
 }) {
   const [selected, setSelected] = useState<TeamMember | null>(null);
@@ -46,31 +47,34 @@ export function TeamMemberList({ members, directory = false, achievementTargetId
   return (
     <>
       <ul ref={list} className={`team-grid${directory ? " team-directory-grid" : ""}`}>
-        {members.map(member => (
-          <li className={`team-member${directory ? " team-directory-member" : member.largeRole ? " team-member--large-role" : ""}`}
-            key={member.id}>
-            <button className="team-member-trigger" type="button" aria-haspopup="dialog"
-              aria-label={`查看 ${member.name} 的成員介紹`} onClick={event => {
-                event.currentTarget.focus({ preventScroll: true });
-                setSelected(member);
-              }} />
-            <TeamAvatar member={member} accessory={!directory && member.decoration ? (
-              <InteractiveTeamHat key={`${member.id}-${hats.round}`} member={member} angle={hats.angles[member.id] ?? normalizeHatAngle(getInitialHatAngle(member.decoration))}
-                unlocked={hats.unlocked} onChange={(angle, commit) => changeHat(member.id, angle, commit)} />
-            ) : undefined} />
-            {directory ? (
-              <div className="team-directory-caption">
-                <span className={`team-position team-position--${member.position}`}>{getTeamPositionLabel(member)}</span>
-                <h3 className="team-directory-name">{member.name}</h3>
-              </div>
-            ) : (
-              <div className="team-caption">
-                <h3 className="team-role">{getTeamMemberRole(member)}</h3>
-                <p className="team-name">{member.name}</p>
-              </div>
-            )}
-          </li>
-        ))}
+        {members.map(member => {
+          const membership = directory && groupId ? getTeamMemberships(member).find(role => role.group === groupId) ?? member : member;
+          return (
+            <li className={`team-member${directory ? " team-directory-member" : member.largeRole ? " team-member--large-role" : ""}`}
+              key={member.id}>
+              <button className="team-member-trigger" type="button" aria-haspopup="dialog"
+                aria-label={`查看 ${member.name} 的成員介紹`} onClick={event => {
+                  event.currentTarget.focus({ preventScroll: true });
+                  setSelected(member);
+                }} />
+              <TeamAvatar member={member} accessory={!directory && member.decoration ? (
+                <InteractiveTeamHat key={`${member.id}-${hats.round}`} member={member} angle={hats.angles[member.id] ?? normalizeHatAngle(getInitialHatAngle(member.decoration))}
+                  unlocked={hats.unlocked} onChange={(angle, commit) => changeHat(member.id, angle, commit)} />
+              ) : undefined} />
+              {directory ? (
+                <div className="team-directory-caption">
+                  <span className={`team-position team-position--${membership.position}`}>{getTeamPositionLabel(membership)}</span>
+                  <h3 className="team-directory-name">{member.name}</h3>
+                </div>
+              ) : (
+                <div className="team-caption">
+                  <h3 className="team-role">{getTeamMemberRole(member)}</h3>
+                  <p className="team-name">{member.name}</p>
+                </div>
+              )}
+            </li>
+          );
+        })}
       </ul>
       {achievement && achievementTarget ? createPortal(achievement, achievementTarget) : achievement}
       <TeamMemberModal member={selected} onClose={() => setSelected(null)} />

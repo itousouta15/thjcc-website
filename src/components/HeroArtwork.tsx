@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
+import { isSmoothScrollActive, subscribeSmoothScroll } from "@/lib/smooth-scroll";
 
 export function HeroArtwork() {
   const artwork = useRef<HTMLDivElement>(null);
@@ -19,26 +20,30 @@ export function HeroArtwork() {
     let geometry = { x: 0, y: 0, scale: 1, endScroll: 1 };
     let lastProgress = -1;
     let disposed = false;
+    let unsubscribeScroll: (() => void) | null = null;
 
-    function render() {
-      frame = null;
-      const progress = Math.max(0, Math.min(1, window.scrollY / geometry.endScroll));
+    function applyScroll(scrollY: number) {
+      const progress = Math.max(0, Math.min(1, scrollY / geometry.endScroll));
       if (progress === lastProgress) return;
       lastProgress = progress;
       const scale = 1 + (geometry.scale - 1) * progress;
       // Follow Lenis/native scroll position linearly, without pointer offsets or timed easing.
       element!.style.transform = `translate3d(${geometry.x * progress}px, ${geometry.y * progress}px, 0) scale(${scale})`;
-      element!.dataset.scrollProgress = String(progress);
+    }
+
+    function render() {
+      frame = null;
+      applyScroll(window.scrollY);
     }
 
     function schedule() {
+      if (isSmoothScrollActive()) return;
       if (frame === null) frame = window.requestAnimationFrame(render);
     }
 
     function measure() {
       if (reducedMotion.matches) {
         element!.style.removeProperty("transform");
-        delete element!.dataset.scrollProgress;
         return;
       }
 
@@ -61,6 +66,8 @@ export function HeroArtwork() {
     const observer = new ResizeObserver(measure);
 
     function detach() {
+      unsubscribeScroll?.();
+      unsubscribeScroll = null;
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", measure);
       document.fonts.removeEventListener("loadingdone", measure);
@@ -69,7 +76,6 @@ export function HeroArtwork() {
       frame = null;
       lastProgress = -1;
       element!.style.removeProperty("transform");
-      delete element!.dataset.scrollProgress;
     }
 
     function syncPreference() {
@@ -79,7 +85,14 @@ export function HeroArtwork() {
       observer.observe(slot!);
       observer.observe(title!);
       observer.observe(target!);
-      if (!reducedMotion.matches) window.addEventListener("scroll", schedule, { passive: true });
+      if (!reducedMotion.matches) {
+        unsubscribeScroll = subscribeSmoothScroll(scrollY => {
+          if (frame !== null) window.cancelAnimationFrame(frame);
+          frame = null;
+          applyScroll(scrollY);
+        });
+        window.addEventListener("scroll", schedule, { passive: true });
+      }
       window.addEventListener("resize", measure);
       document.fonts.addEventListener("loadingdone", measure);
     }

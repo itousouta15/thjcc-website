@@ -16,6 +16,10 @@
   will-change: transform;
 }
 
+.ambient-background[data-paused="true"] .ambient-glow {
+  animation-play-state: paused;
+}
+
 .ambient-pointer {
   position: absolute;
   inset: -16px;
@@ -25,13 +29,11 @@
 
 .ambient-grid {
   position: absolute;
-  inset: -42px;
+  inset: -58px;
   background-image: radial-gradient(circle, rgb(249 245 239 / 18%) 0.7px, transparent 1px);
   background-size: 42px 42px;
   opacity: 0.22;
   mask-image: linear-gradient(transparent, #000 22%, #000 72%, transparent);
-  animation: ambient-grid-drift 24s linear infinite;
-  will-change: transform;
 }
 
 @keyframes ambient-glow-drift {
@@ -40,15 +42,6 @@
   }
   to {
     transform: translate3d(3%, 3%, 0) scale(1.06);
-  }
-}
-
-@keyframes ambient-grid-drift {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(0, 42px, 0);
   }
 }
 
