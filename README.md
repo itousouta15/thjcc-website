@@ -4,6 +4,8 @@
 
 網站以 Next.js App Router、React 與 TypeScript 建置，依 Figma 設計實作桌面版，並延伸為適用於平板與手機的單頁網站。目前頁面內容由專案內的資料檔管理，啟動時不需要環境變數、資料庫或外部 API。
 
+Make by [itouSouta](https://github.com/itousouta15)
+
 ## 目錄
 
 - [網站功能](#網站功能)
@@ -27,6 +29,7 @@
 | Hero | THJCC 4 主視覺、金屬標誌、賽事名稱與社群入口 |
 | 賽事介紹 | 競賽宗旨與學生自主籌辦的介紹 |
 | 籌備團隊 | 五位籌備成員的職務、名稱與頭像 |
+| 成員介紹彈窗 | 點選首頁或團隊子頁的成員，查看自我介紹與社群連結 |
 | 支持單位 | 三個主辦單位、兩個協辦單位與一個合作單位 |
 | 單位介紹彈窗 | 單位摘要、主要領域與官方網站連結 |
 | 頁尾 | 頁內連結、贊助入口、聯絡信箱與社群連結 |
@@ -93,14 +96,18 @@ thjcc-website/
 │   ├── app/
 │   │   ├── layout.tsx            # 根版面、字型、metadata 與全域效果
 │   │   ├── page.tsx              # 首頁區塊組合
-│   │   └── globals.css           # 全域樣式與鍵盤焦點樣式
+│   │   ├── globals.css           # 全域樣式與鍵盤焦點樣式
+│   │   └── team/page.tsx         # 完整團隊分組子頁
 │   ├── components/
 │   │   ├── SiteHeader.tsx        # 桌面與手機導覽入口
 │   │   ├── MobileNavigation.tsx  # 手機選單互動
 │   │   ├── HeroSection.tsx       # 主視覺文字與行動連結
-│   │   ├── HeroArtwork.tsx       # 金屬標誌與捲動／滑鼠互動
+│   │   ├── HeroArtwork.tsx       # 金屬標誌與線性捲動動畫
 │   │   ├── AboutSection.tsx      # 賽事介紹
 │   │   ├── TeamSection.tsx       # 籌備團隊
+│   │   ├── TeamAvatar.tsx        # 團隊共用頭像與待補圖片樣式
+│   │   ├── TeamMemberList.tsx    # 共用成員清單與彈窗入口
+│   │   ├── TeamMemberModal.tsx   # 成員自我介紹與社群連結
 │   │   ├── PartnersSection.tsx   # 單位卡片與彈窗狀態
 │   │   ├── OrganizationModal.tsx # 單位介紹對話框
 │   │   ├── AnimatedBackground.tsx # 動態背景與滑鼠互動
@@ -111,11 +118,13 @@ thjcc-website/
 │   │   └── SiteFooter.tsx        # 頁尾
 │   ├── data/
 │   │   ├── site.ts               # 網站名稱、連結、文案、成員與單位
+│   │   ├── team.ts               # 成員、分組、職位與首頁精選設定
 │   │   └── organizationDetails.ts # 單位介紹、重點與官方網址
 │   └── styles/
 │       ├── tokens.css            # 色彩、字型、間距與圓角變數
 │       ├── home.css              # 首頁版面與 RWD
 │       ├── background.css        # 光暈與點陣動畫
+│       ├── team.css              # 團隊子頁與職位標記
 │       └── modal.css             # 單位介紹彈窗樣式
 ├── .eslintrc.json                 # ESLint 設定
 ├── next.config.mjs                # Next.js 設定
@@ -137,7 +146,7 @@ thjcc-website/
 | `site` | 中英文名稱、聯絡信箱、Discord、Instagram、FAQ 與贊助連結 |
 | `navigation` | 導覽項目的標籤與目的地 |
 | `aboutCopy` | 賽事介紹內文 |
-| `team` | 成員名稱、職務、頭像與裝飾設定 |
+| `team` | 首頁精選成員，由 `src/data/team.ts` 匯出 |
 | `organizers` | 主辦單位 |
 | `coorganizers` | 協辦單位 |
 | `partners` | 合作單位 |
@@ -146,9 +155,41 @@ thjcc-website/
 
 ### 團隊成員
 
-1. 將頭像放入 `public/images/`。
-2. 在 `team` 中設定 `name`、`role` 與 `image`；`image` 填檔名即可，不含 `/images/` 前綴。
-3. 依版面需要調整 `decoration` 與 `largeRole`。現有裝飾的尺寸和位置定義在 `src/styles/home.css`。
+完整團隊頁位於 `/team`，可從首頁「查看完整團隊」及頁尾進入。所有成員集中在 [`src/data/team.ts`](./src/data/team.ts) 的 `teamMembers`，首頁只顯示 `featured: true` 的成員。
+
+新增成員時，在 `teamMembers` 陣列加入：
+
+```ts
+{
+  id: "member-id",             // 唯一識別名稱
+  name: "成員名稱",
+  image: null,                 // 之後填入 "/images/team-member.webp"
+  group: "challenges",         // 分組 ID
+  position: "member",          // lead / deputy / member
+  bio: ["第一段自我介紹。", "可以繼續加入其他段落。"],
+  socialLinks: [
+    { label: "GitHub", href: "https://github.com/your-account" },
+    { label: "個人網站", href: "https://example.com" },
+    { label: "Email", href: "mailto:hello@example.com" },
+  ],
+}
+```
+
+| `group` | 分組 |
+| --- | --- |
+| `coordination` | 總召組 |
+| `challenges` | 出題組 |
+| `infrastructure` | 網管組 |
+| `administration` | 文書組 |
+| `design` | 設計組 |
+
+`position: "lead"` 顯示組長標記，`"deputy"` 顯示副組長標記，`"member"` 為一般組員；總召組對應「總召／副召」。各組內依組長、副組長、組員排序，其餘依資料順序呈現。分組名稱與職位文字可在同檔案的 `teamGroups` 調整。
+
+頭像放入 `public/images/`，`image` 填完整公開路徑，例如 `/images/team-member.webp`。設為 `null` 時會顯示名字縮寫，可先建立名單再補圖。首頁精選成員另外支援 `decoration` 與 `largeRole`，樣式定義在 `src/styles/home.css`。
+
+首頁與 `/team` 的每位成員都能點開介紹彈窗。`bio` 為自我介紹段落，空陣列或未設定時顯示「自我介紹準備中。」；`socialLinks` 接受任意顯示名稱及完整的 `https://`、`http://` 或 `mailto:` 網址。沒有連結時不顯示社群區塊。外部網站另開視窗，Email 則使用郵件連結。
+
+首頁成員的帽子每次載入或重設時會隨機出現在頭像上半圈，可繞頭像圓心拖曳旋轉，也支援方向鍵（每次 5°）、Page Up／Down（每次 15°）、Home（0°）及 End（355°）。所有帽子的角度相差不超過 5° 時，放開帽子或完成鍵盤調整會觸發彩蛋。彩蛋 Flag 作為可複製分享的官網探索成就，並提供重設功能；內容位於 `src/components/TeamHatEasterEgg.tsx`。團隊內頁與成員 Modal 不顯示這些帽子。
 
 頭像以 200 × 200 的尺寸資訊交給 `next/image` 處理，手機版顯示尺寸由 CSS 控制。
 
@@ -184,14 +225,16 @@ thjcc-website/
 
 - **桌面捲動**：寬度至少 768px 且未啟用「減少動態效果」時，動態載入 Lenis，使用 `wheelMultiplier: 0.8`、`lerp: 0.1` 與 `autoRaf: true`。
 - **頁內導覽**：桌面錨點由 Lenis 處理，更新網址 hash，捲動完成後將焦點移至目的區塊。導覽列避讓間距透過 `--header-scroll-offset` 設定。
-- **Hero 標誌**：隨 Hero 至賽事介紹區塊的捲動進度線性縮小、下移，最後停在介紹標題右側。文字、字型載入或視窗尺寸改變時會重新測量位置。
-- **滑鼠互動**：支援滑鼠且未要求減少動態效果的裝置，會呈現標誌與背景的輕微位移。
+- **Hero 標誌**：依捲動進度線性縮小、移至介紹標題右側；僅保留捲動動畫，不套用滑鼠視差。初始尺寸和位置由 CSS 排列，避免重新整理時跳動。
+- **滑鼠互動**：支援滑鼠且未要求減少動態效果的裝置，背景會呈現輕微位移。
 - **背景動畫**：低對比暖白光暈與點陣由 CSS 動畫呈現。
-- **減少動態效果**：遵循 `prefers-reduced-motion`，停用 Lenis、標誌捲動位移、滑鼠位移與背景動畫；標誌保留靜態呈現。手機版使用原生捲動。
+- **減少動態效果**：遵循 `prefers-reduced-motion`，停用 Lenis、背景滑鼠位移與背景動畫。手機版使用原生捲動。
 
 ### 鍵盤操作與彈窗
 
 網站提供「跳至主要內容」連結、可見的鍵盤焦點樣式與手機選單的 `aria-expanded` 狀態。手機選單可用 Esc 或點擊外部關閉。
+
+成員介紹彈窗可由滑鼠、觸控或鍵盤 Enter／Space 開啟，支援 Esc、關閉按鈕、點擊背景及 Tab／Shift+Tab 焦點循環。開啟時鎖定背景捲動並暫停 Lenis，關閉後恢復捲動與觸發成員的焦點。
 
 單位介紹使用原生 `<dialog>`，支援關閉按鈕、Esc、點擊背景，以及 Tab／Shift+Tab 焦點循環。開啟時鎖定背景捲動，並透過 `thjcc:scroll-lock` 事件暫停 Lenis；關閉後恢復捲動與觸發按鈕的焦點。外部網站連結另開分頁並設定 `noopener noreferrer`。
 

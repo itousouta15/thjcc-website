@@ -33,9 +33,8 @@ html:has(.organization-modal[open]) {
 .organization-modal {
   width: min(640px, calc(100vw - 32px));
   max-height: min(86dvh, 840px);
-  padding: 0;
-  overflow: auto;
-  overscroll-behavior: contain;
+  padding: 12px 8px;
+  overflow: hidden;
   border: 1px solid rgb(249 245 239 / 24%);
   border-radius: 28px;
   color: var(--color-foreground);
@@ -54,29 +53,49 @@ html:has(.organization-modal[open]) {
 
 .organization-modal-panel {
   position: relative;
-  padding: 36px;
+  max-height: calc(min(86dvh, 840px) - 26px);
+  padding: 24px 28px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(249 245 239 / 30%) transparent;
 }
 
 .organization-modal-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 4px;
+  right: 8px;
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
+  padding: 0;
   border: 1px solid var(--color-card-border);
   border-radius: 50%;
   color: var(--color-foreground);
   background: transparent;
-  font-size: 30px;
-  font-weight: 400;
   line-height: 1;
   cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 160ms ease;
 }
 
-.organization-modal-close:hover {
+.organization-modal-close svg {
+  display: block;
+  transform-origin: center;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.organization-modal-close:is(:hover, :focus-visible) {
+  border-color: rgb(249 245 239 / 45%);
   background: rgb(249 245 239 / 8%);
+}
+
+.organization-modal-close:is(:hover, :focus-visible) svg {
+  transform: rotate(90deg);
+}
+
+.organization-modal-close:active {
+  transform: scale(0.92);
 }
 
 .organization-modal-logo {
@@ -158,6 +177,145 @@ html:has(.organization-modal[open]) {
   text-decoration: underline;
 }
 
+.team-member-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 32px;
+  margin-bottom: 24px;
+}
+
+.team-member-modal-avatar {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: flex-start;
+}
+
+.team-member-modal-avatar .team-avatar {
+  width: 144px;
+}
+
+.team-member-modal-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.team-member-modal h2,
+.team-member-modal .organization-modal-copy {
+  overflow-wrap: anywhere;
+}
+
+.team-member-socials {
+  min-width: 0;
+  margin-top: 16px;
+}
+
+.team-member-socials ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.team-member-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-pill);
+  background: rgb(249 245 239 / 4%);
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.team-member-social-link .social-link-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.team-member-social-link .social-link-icon--linkedin {
+  width: 20px;
+  height: 20px;
+}
+
+.team-member-social-link:hover {
+  border-color: rgb(249 245 239 / 45%);
+  background: rgb(249 245 239 / 8%);
+}
+
+.team-hat-easter-egg .organization-modal-panel {
+  padding-top: 52px;
+  text-align: center;
+}
+
+.team-hat-achievement {
+  margin-bottom: 12px;
+  color: #f9e1b0;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.team-hat-easter-egg-copy {
+  margin-top: 16px;
+  color: var(--color-muted);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.85;
+}
+
+.team-hat-flag {
+  display: block;
+  padding: 16px;
+  margin-block: 24px;
+  border: 1px dashed rgb(249 225 176 / 35%);
+  border-radius: 16px;
+  color: #f9e1b0;
+  background: rgb(249 225 176 / 5%);
+  font-size: clamp(12px, 3.5vw, 20px);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.team-hat-sparks {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.team-hat-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.team-hat-copy-status {
+  min-height: 24px;
+  margin-top: 16px;
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.team-hat-sparks span {
+  position: absolute;
+  bottom: 30%;
+  left: calc(8% + var(--spark) * 12%);
+  color: #f9e1b0;
+  opacity: 0;
+  animation: team-hat-spark 1600ms ease-out both;
+  animation-delay: calc(var(--spark) * 90ms);
+}
+
+@keyframes team-hat-spark {
+  0% { opacity: 0; transform: translateY(16px) scale(0.4) rotate(0deg); }
+  30% { opacity: 0.8; }
+  100% { opacity: 0; transform: translateY(-110px) scale(1.2) rotate(60deg); }
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -181,16 +339,32 @@ html:has(.organization-modal[open]) {
 
 @media (max-width: 767px) {
   .organization-modal-panel {
-    padding: 28px 22px;
+    padding: 16px 14px;
   }
 
   .organization-modal-logo {
     padding-inline: 0;
+  }
+
+  .team-member-modal-header {
+    gap: 16px;
+  }
+
+  .team-member-modal-avatar .team-avatar {
+    width: 96px;
+  }
+
+  .team-member-modal-info h2 {
+    font-size: clamp(20px, 6vw, 28px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .organization-modal[open] {
     animation: none;
+  }
+
+  .team-hat-sparks {
+    display: none;
   }
 }

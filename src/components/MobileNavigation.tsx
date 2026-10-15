@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { navigation } from "@/data/site";
+import { navigation, type SiteLink } from "@/data/site";
 import { ConfiguredLink } from "./ConfiguredLink";
 
-export function MobileNavigation() {
+export function MobileNavigation({ links = navigation }: { links?: SiteLink[] }) {
   const [open, setOpen] = useState(false);
   const menuId = useId();
   const root = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ export function MobileNavigation() {
         aria-label="手機版主導覽" aria-hidden={!open}
         ref={element => { element?.toggleAttribute("inert", !open); }}>
         <div className="mobile-menu-links">
-          {navigation.map(link => (
+          {links.map(link => (
             <ConfiguredLink key={link.label} href={link.href} onClick={() => setOpen(false)}>
               {link.label}
             </ConfiguredLink>

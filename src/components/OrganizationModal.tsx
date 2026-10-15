@@ -3,6 +3,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import type { Organization } from "@/data/site";
 import { organizationDetails } from "@/data/organizationDetails";
+import { ModalCloseButton } from "./ModalCloseButton";
 
 type Props = {
   organization: Organization | null;
@@ -48,10 +49,7 @@ export function OrganizationModal({ organization, logo, onClose }: Props) {
         if (event.target === event.currentTarget) event.currentTarget.close();
       }}>
       <div className="organization-modal-panel">
-        <button className="organization-modal-close" type="button" aria-label="關閉單位介紹"
-          onClick={() => modal.current?.close()}>
-          <span aria-hidden="true">×</span>
-        </button>
+        <ModalCloseButton label="關閉單位介紹" onClick={() => modal.current?.close()} />
         <div className="organization-modal-logo" aria-hidden="true">{logo}</div>
         <p className="organization-modal-category">{details.category} · {details.shortName}</p>
         <h2 id="organization-modal-title">{organization.name}</h2>

@@ -1,17 +1,17 @@
-import { navigation } from "@/data/site";
+import { navigation, type SiteLink } from "@/data/site";
 import { Brand } from "./Brand";
 import { ConfiguredLink } from "./ConfiguredLink";
 import { MobileNavigation } from "./MobileNavigation";
 
-export function SiteHeader() {
+export function SiteHeader({ links = navigation, homeHref = "#top" }: { links?: SiteLink[]; homeHref?: string }) {
   return (
     <header className="site-header" data-node-id="76:225">
       <div className="navbar" data-node-id="76:226">
-        <Brand />
+        <Brand href={homeHref} />
         <nav className="desktop-navigation" aria-label="主導覽">
-          {navigation.map(link => <ConfiguredLink key={link.label} href={link.href}>{link.label}</ConfiguredLink>)}
+          {links.map(link => <ConfiguredLink key={link.label} href={link.href}>{link.label}</ConfiguredLink>)}
         </nav>
-        <MobileNavigation />
+        <MobileNavigation links={links} />
       </div>
     </header>
   );
