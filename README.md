@@ -1,5 +1,8 @@
 # THJCC Website
 
+<img width="1883" height="1007" alt="圖片" src="https://github.com/user-attachments/assets/d6d9ebca-6e28-45e5-8101-46ae30bbc906" />
+
+
 臺灣高中職聯合資安競賽（THJCC）的常駐官網，提供籌辦理念、籌備團隊、合作單位介紹，以及社群與聯絡入口。目前首頁使用第四屆主視覺。
 
 網站以 Next.js App Router、React 與 TypeScript 建置，依 Figma 設計實作桌面版，並延伸為適用於平板與手機的響應式官網。目前頁面內容由專案內的資料檔管理，啟動時不需要環境變數、資料庫或外部 API。
