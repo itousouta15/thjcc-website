@@ -36,12 +36,16 @@ export function MobileNavigation() {
         onClick={() => setOpen(!open)}>
         <span /><span />
       </button>
-      <nav className="mobile-menu" id={menuId} aria-label="手機版主導覽" hidden={!open}>
-        {navigation.map(link => (
-          <ConfiguredLink key={link.label} href={link.href} onClick={() => setOpen(false)}>
-            {link.label}
-          </ConfiguredLink>
-        ))}
+      <nav className={`mobile-menu${open ? " is-open" : ""}`} id={menuId}
+        aria-label="手機版主導覽" aria-hidden={!open}
+        ref={element => { element?.toggleAttribute("inert", !open); }}>
+        <div className="mobile-menu-links">
+          {navigation.map(link => (
+            <ConfiguredLink key={link.label} href={link.href} onClick={() => setOpen(false)}>
+              {link.label}
+            </ConfiguredLink>
+          ))}
+        </div>
       </nav>
     </div>
   );
