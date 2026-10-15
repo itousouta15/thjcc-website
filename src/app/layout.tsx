@@ -4,6 +4,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
 import "lenis/dist/lenis.css";
 import "./globals.css";
+// CSS side-effect imports are handled by Next.js.
 import "@/styles/tokens.css";
 import "@/styles/background.css";
 import "@/styles/home.css";

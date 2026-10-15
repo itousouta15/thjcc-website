@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { site } from "@/data/site";
 import { SocialLinks } from "./SocialLinks";
+import { HeroArtwork } from "./HeroArtwork";
 
 export function HeroSection() {
   return (
@@ -21,6 +22,7 @@ export function HeroSection() {
             <SocialLinks />
           </div>
         </div>
+        <HeroArtwork />
       </div>
     </section>
   );

@@ -164,8 +164,8 @@ thjcc-website/
 
 ### 圖片、字型與樣式
 
-- 公開素材放在 `public/`，以根路徑引用，例如 `/images/THJCC.png`；檔名大小寫需與引用一致。
-- Hero 目前使用 `public/images/THJCC.png`，更換素材時需同步調整 `HeroArtwork.tsx` 的原始寬高比例。
+- 公開素材放在 `public/`，以根路徑引用，例如 `/images/THJCC.webp`；檔名大小寫需與引用一致。
+- Hero 目前使用 `public/images/THJCC.webp`，更換素材時需同步調整 `HeroArtwork.tsx` 的原始寬高比例。
 - 全站色彩、字型與間距優先修改 `src/styles/tokens.css`；各區塊樣式與響應式規則位於 `src/styles/home.css`。
 - 字型由 `src/app/layout.tsx` 的 `next/font/local` 載入，新增或更換時需同步設定路徑、字重與 CSS 變數。
 - 網頁標題、描述、圖示與主題色也在 `src/app/layout.tsx` 設定。

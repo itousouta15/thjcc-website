@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 const MAX_OFFSET = 3;
 
@@ -17,6 +17,14 @@ export function HeroArtwork() {
     const preference = window.matchMedia("(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)");
     let frame: number | null = null;
     const target = { x: 0, y: 0 };
+    let bounds = { left: 0, top: 0, width: 1, height: 1 };
+
+    function measure() {
+      const rect = hero!.getBoundingClientRect();
+      bounds = { left: rect.left, top: rect.top + window.scrollY, width: rect.width, height: rect.height };
+    }
+
+    const observer = new ResizeObserver(measure);
 
     function applyTarget() {
       // Update only the destination; the compositor interpolates every frame.
@@ -32,9 +40,8 @@ export function HeroArtwork() {
 
     function move(event: PointerEvent) {
       if (event.pointerType !== "mouse") return;
-      const bounds = hero!.getBoundingClientRect();
       const normalizedX = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
-      const normalizedY = ((event.clientY - bounds.top) / bounds.height) * 2 - 1;
+      const normalizedY = ((event.clientY + window.scrollY - bounds.top) / bounds.height) * 2 - 1;
       // Smoothly compress movement near the edges instead of hitting a hard clamp.
       target.x = Math.tanh(normalizedX * 1.15) * MAX_OFFSET;
       target.y = Math.tanh(normalizedY * 1.15) * MAX_OFFSET;
@@ -51,6 +58,8 @@ export function HeroArtwork() {
       hero!.removeEventListener("pointermove", move);
       hero!.removeEventListener("pointerleave", reset);
       window.removeEventListener("blur", reset);
+      window.removeEventListener("resize", measure);
+      observer.disconnect();
       if (frame !== null) window.cancelAnimationFrame(frame);
       frame = null;
       target.x = target.y = 0;
@@ -61,10 +70,13 @@ export function HeroArtwork() {
     function syncPreference() {
       detach();
       if (!preference.matches) return;
+      measure();
+      observer.observe(hero!);
       element!.dataset.parallax = "true";
       hero!.addEventListener("pointermove", move, { passive: true });
       hero!.addEventListener("pointerleave", reset);
       window.addEventListener("blur", reset);
+      window.addEventListener("resize", measure);
     }
 
     syncPreference();
@@ -75,14 +87,14 @@ export function HeroArtwork() {
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = artwork.current;
+    const slot = element?.parentElement;
     const stage = element?.closest<HTMLElement>(".intro-stage");
     const title = stage?.querySelector<HTMLElement>("#about-title");
     const target = stage?.querySelector<HTMLElement>(".about-art-target");
     const hero = stage?.querySelector<HTMLElement>(".hero");
-    const inner = hero?.querySelector<HTMLElement>(".hero-inner");
-    if (!element || !stage || !title || !target || !hero || !inner) return;
+    if (!element || !slot || !stage || !title || !target || !hero) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame: number | null = null;
@@ -106,28 +118,6 @@ export function HeroArtwork() {
     }
 
     function measure() {
-      const stageBounds = stage!.getBoundingClientRect();
-
-      // Use actual glyph bounds, not an arbitrary fixed-width text box.
-      if (window.innerWidth >= 768) {
-        const textBounds = [...hero!.querySelectorAll<HTMLElement>(".hero-eyebrow, .hero-wordmark, .hero-edition, .hero-subtitle")].map(text => {
-          const range = document.createRange();
-          range.selectNodeContents(text);
-          return range.getBoundingClientRect().right;
-        });
-        const gap = Math.max(28, Math.min(44, window.innerWidth * 0.025));
-        const left = Math.max(...textBounds) + gap;
-        const rightLimit = Math.min(stageBounds.right + 96, inner!.getBoundingClientRect().right + 196);
-        const width = Math.max(220, Math.min(675, rightLimit - left));
-        element!.style.width = `${width}px`;
-        element!.style.left = `${left - stageBounds.left}px`;
-        element!.style.right = "auto";
-      } else {
-        element!.style.removeProperty("width");
-        element!.style.removeProperty("left");
-        element!.style.removeProperty("right");
-      }
-
       if (reducedMotion.matches) {
         element!.style.removeProperty("transform");
         delete element!.dataset.scrollProgress;
@@ -136,22 +126,21 @@ export function HeroArtwork() {
 
       const targetBounds = target!.getBoundingClientRect();
       const titleBounds = title!.getBoundingClientRect();
-      const style = window.getComputedStyle(element!);
-      const width = Number.parseFloat(style.width);
-      const height = Number.parseFloat(style.height);
+      // The CSS slot stays in normal flow and never inherits the scroll transform.
+      const slotBounds = slot!.getBoundingClientRect();
+      const { width, height } = slotBounds;
       const scale = Math.min(targetBounds.width / width, targetBounds.height / height, 1);
-      const startTop = stageBounds.top + window.scrollY + Number.parseFloat(style.top);
-      const startRight = stageBounds.left + Number.parseFloat(style.left) + width;
 
       geometry = {
-        x: targetBounds.right - startRight,
-        y: targetBounds.top + window.scrollY + (targetBounds.height - height * scale) / 2 - startTop,
+        x: targetBounds.right - slotBounds.right,
+        y: targetBounds.top + (targetBounds.height - height * scale) / 2 - slotBounds.top,
         scale,
         // Finish as the intro heading reaches the lower-middle of the viewport.
         endScroll: Math.max(320, titleBounds.top + window.scrollY + titleBounds.height / 2 - window.innerHeight * 0.6),
       };
       lastProgress = -1;
-      schedule();
+      if (frame !== null) window.cancelAnimationFrame(frame);
+      render();
     }
 
     const observer = new ResizeObserver(measure);
@@ -172,6 +161,8 @@ export function HeroArtwork() {
       detach();
       measure();
       observer.observe(stage!);
+      observer.observe(slot!);
+      observer.observe(hero!);
       observer.observe(title!);
       observer.observe(target!);
       if (!reducedMotion.matches) window.addEventListener("scroll", schedule, { passive: true });
@@ -188,16 +179,15 @@ export function HeroArtwork() {
       disposed = true;
       reducedMotion.removeEventListener("change", syncPreference);
       detach();
-      element.style.removeProperty("width");
-      element.style.removeProperty("left");
-      element.style.removeProperty("right");
     };
   }, []);
 
   return (
-    <div className="hero-art" ref={artwork} aria-hidden="true" data-node-id="76:232">
-      <Image src="/images/THJCC.png" alt="" width={2070} height={1707} priority
-        sizes="(max-width: 767px) min(440px, 74vw), (max-width: 1023px) 520px, 675px" />
+    <div className="hero-art-slot" aria-hidden="true">
+      <div className="hero-art" ref={artwork} data-node-id="76:232">
+        <Image src="/images/THJCC.webp" alt="" width={2070} height={1707} priority
+          sizes="(max-width: 767px) 300px, (max-width: 1319px) 55vw, 675px" />
+      </div>
     </div>
   );
 }

@@ -58,6 +58,19 @@
   }
 }
 
+@media (max-width: 767px), (hover: none), (pointer: coarse) {
+  .ambient-glow,
+  .ambient-grid {
+    animation: none;
+    will-change: auto;
+  }
+
+  .ambient-pointer {
+    transition: none;
+    will-change: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ambient-glow,
   .ambient-grid,

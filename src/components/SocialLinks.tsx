@@ -1,18 +1,22 @@
-import Image from "next/image";
 import { site } from "@/data/site";
 import { ConfiguredLink } from "./ConfiguredLink";
 
 export function SocialLinks({ footer = false }: { footer?: boolean }) {
+  const links = [
+    { name: "Discord", href: site.links.discord, icon: "discord-dark.svg" },
+    { name: "Instagram", href: site.links.instagram, icon: "instagram-dark.svg" },
+  ];
+
   return (
     <div className={`social-links${footer ? " social-links--footer" : ""}`} aria-label="社群連結">
-      <ConfiguredLink href={site.links.discord} className={`social-link${footer ? "" : " social-link--discord"}`} label="THJCC Discord（另開視窗）">
-        <Image src={`/images/${footer ? "discord-dark.svg" : "discord-button.svg"}`} alt=""
-          width={footer ? 24 : 69} height={footer ? 24 : 69} />
-      </ConfiguredLink>
-      <ConfiguredLink href={site.links.instagram} className="social-link social-link--instagram" label="THJCC Instagram（另開視窗）">
-        <Image src={`/images/instagram-${footer ? "dark" : "light"}.svg`} alt=""
-          width={footer ? 24 : 36} height={footer ? 24 : 36} />
-      </ConfiguredLink>
+      {links.map(link => (
+        <ConfiguredLink key={link.name} href={link.href} className="social-link" label={`THJCC ${link.name}（另開視窗）`}>
+          <span className="social-link-icon" aria-hidden="true" style={{
+            maskImage: `url(/images/${link.icon})`,
+            WebkitMaskImage: `url(/images/${link.icon})`,
+          }} />
+        </ConfiguredLink>
+      ))}
     </div>
   );
 }

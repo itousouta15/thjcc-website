@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { AboutSection } from "@/components/AboutSection";
 import { HeroSection } from "@/components/HeroSection";
-import { HeroArtwork } from "@/components/HeroArtwork";
 import { PartnersSection } from "@/components/PartnersSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -16,7 +15,6 @@ export default function HomePage() {
         <div className="intro-stage">
           <HeroSection />
           <AboutSection />
-          <HeroArtwork />
         </div>
         <TeamSection />
         <PartnersSection />
