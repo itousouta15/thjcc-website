@@ -35,7 +35,7 @@ export type TeamMember = {
   socialLinks?: TeamSocialLink[];
   /** Include this member in the homepage's featured team. */
   featured?: boolean;
-  decoration?: "left" | "right" | "jonah" | "justin" | "twcat";
+  decoration?: "left" | "right" | "denny" | "jonah" | "justin" | "twcat";
   largeRole?: boolean;
 };
 
@@ -173,5 +173,14 @@ export function getTeamMemberRole(member: TeamMembership) {
   return member.group === "coordination" ? position : `${group.name.slice(0, -1)}${position}`;
 }
 
+const featuredTeamOrder: Record<string, number> = {
+  pgpenguin72: 0,
+  jonah: 1,
+  justin: 2,
+  twcat0503: 3,
+  itousouta: 4,
+};
+
 export const featuredTeam = teamMembers.filter(member => member.featured)
+  .sort((a, b) => (featuredTeamOrder[a.id] ?? Infinity) - (featuredTeamOrder[b.id] ?? Infinity))
   .map(member => ({ ...member, role: getTeamMemberRole(member) }));

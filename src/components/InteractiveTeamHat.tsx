@@ -284,10 +284,13 @@ export function InteractiveTeamHat({ member, members, targets, targetId, stack, 
   if (!pose || typeof document === "undefined") return null;
   const wearer = members.find(item => item.id === targetId);
   const location = wearer ? `戴在 ${wearer.name} 頭上，第 ${stack + 1} 頂` : "放在頁面上";
+  const playground = document.querySelector(".site-shell") ?? document.body;
+  const origin = playground.getBoundingClientRect();
 
   return createPortal(
     <div className={`team-hat-playground${unlocked ? " team-hat-playground--unlocked" : ""}`}
-      style={{ zIndex: dragging ? 30 : flying ? 20 : 10 + stack }}>
+      style={{ top: -origin.top - window.scrollY, left: -origin.left - window.scrollX,
+        zIndex: dragging ? 9 : flying ? 8 : 3 + stack }}>
       <button ref={handle} className="team-hat-handle team-hat-movable" type="button" role="slider"
         data-hat-id={member.id} data-hat-target={targetId ?? "loose"} data-hat-stack={targetId ? stack : undefined}
         data-dragging={dragging || undefined} data-flying={flying || undefined}
@@ -312,6 +315,6 @@ export function InteractiveTeamHat({ member, members, targets, targetId, stack, 
         <Image src={`/images/team-decoration-${member.decoration === "left" ? "left" : "right"}.svg`}
           alt="" width={145} height={68} draggable={false} />
       </button>
-    </div>, document.body,
+    </div>, playground,
   );
 }
