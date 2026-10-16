@@ -35,7 +35,7 @@ export type TeamMember = {
   socialLinks?: TeamSocialLink[];
   /** Include this member in the homepage's featured team. */
   featured?: boolean;
-  decoration?: "left" | "right" | "denny" | "justin" | "twcat";
+  decoration?: "left" | "right" | "jonah" | "justin" | "twcat";
   largeRole?: boolean;
 };
 
@@ -45,8 +45,7 @@ export const teamMembers: TeamMember[] = [
     id: "pgpenguin72", name: "PGpenguin72", image: "/images/team-pgpenguin72.webp",
     group: "coordination", position: "lead", featured: true, decoration: "left",
     additionalRoles: [
-      { group: "challenges", position: "member" },
-      { group: "infrastructure", position: "member" },
+      { group: "challenges", position: "lead" },
     ],
     bio: ["咕咕嘎嘎，是一隻企鵝喔，然後還是個資安小白，但莫名其妙當了總召…?"],
     socialLinks: [
@@ -57,7 +56,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "denny", name: "Denny", image: "/images/team-denny.webp",
-    group: "challenges", position: "lead", featured: true, decoration: "denny",
+    group: "challenges", position: "deputy",
     bio: ["嗨，我是剛學資安沒多久的小白，請多多指教：）"],
     socialLinks: [
       { label: "Website", href: "https://denny.li" },
@@ -132,11 +131,11 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "lao-z-3", name: "LAO_Z_3", image: null,
-    group: "testing", position: "member",
+    group: "testing", position: "deputy",
   },
   {
-    id: "jonah", name: "jonah", image: null,
-    group: "testing", position: "member",
+    id: "jonah", name: "jonah", image: null, featured: true, decoration: "jonah",
+    group: "testing", position: "lead",
   },
   {
     id: "steven", name: "Steven", image: null,
