@@ -729,9 +729,12 @@
 .team-decoration {
   position: absolute;
   z-index: 1;
+  top: -10.7025%;
+  left: -16.9185%;
   width: 144.538px;
   max-width: none;
   height: 67.991px;
+  transform: rotate(-31.33deg);
   pointer-events: none;
 }
 
@@ -739,15 +742,6 @@
   top: -9.846%;
   left: 45.781%;
   transform: rotate(38.07deg);
-}
-
-.team-decoration--right,
-.team-decoration--denny,
-.team-decoration--justin,
-.team-decoration--twcat {
-  top: -10.7025%;
-  left: -16.9185%;
-  transform: rotate(-31.33deg);
 }
 
 .team-avatar--interactive-hat {
