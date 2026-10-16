@@ -645,8 +645,15 @@
   cursor: pointer;
 }
 
-.team-member:focus-within .team-avatar {
+.team-directory-member:focus-within .team-avatar {
   transform: scale(1.06);
+}
+
+.team-member[data-hat-drop-target] .team-avatar {
+  outline: 2px dashed #f9e1b0;
+  outline-offset: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 28px rgb(249 225 176 / 18%);
 }
 
 .team-avatar {
@@ -744,20 +751,14 @@
   transform: rotate(38.07deg);
 }
 
-.team-avatar--interactive-hat {
-  z-index: 3;
-  pointer-events: none;
-}
-
-.team-hat-orbit {
+.team-hat-playground {
   position: absolute;
-  inset: 0;
+  z-index: 8;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
   pointer-events: none;
-  transform-origin: center;
-}
-
-.team-hat-orbit[data-ready="false"] {
-  visibility: hidden;
 }
 
 .team-hat-handle {
@@ -774,6 +775,18 @@
   transition: filter 180ms ease;
 }
 
+.team-hat-movable {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: none;
+  transform-origin: center;
+}
+
+.team-hat-movable:is([data-dragging], [data-flying]) {
+  will-change: transform;
+}
+
 .team-hat-handle img {
   width: 100%;
   height: 100%;
@@ -782,12 +795,44 @@
 }
 
 .team-hat-handle:is(:hover, :focus-visible),
-.team-hat-orbit--unlocked .team-hat-handle {
+.team-hat-playground--unlocked .team-hat-handle {
   filter: drop-shadow(0 0 8px rgb(249 225 176 / 45%));
 }
 
 .team-hat-handle[data-dragging="true"] {
   cursor: grabbing;
+}
+
+.team-hat-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.team-hat-tidy {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-foreground);
+  background: transparent;
+  cursor: pointer;
+}
+
+.team-hat-tidy:hover {
+  border-color: rgb(249 245 239 / 45%);
+  background: rgb(249 245 239 / 6%);
+}
+
+@media (pointer: coarse) {
+  .team-hat-rotation-hint {
+    display: none;
+  }
 }
 
 .team-hat-easter-egg-reopen,
