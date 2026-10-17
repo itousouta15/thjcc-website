@@ -150,8 +150,14 @@ export const teamMembers: TeamMember[] = [
     group: "administration", position: "member",
   },
   {
-    id: "凡", name: "凡", image: null,
+    id: "凡", name: "凡", image: "https://casperlin100w.github.io/image/sidebar/avatar.jpg",
     group: "administration", position: "member",
+    bio: ["聽說這邊需要文書所以我來了，人家是資安小白我是白到反光o(TヘTo)"],
+    socialLinks: [
+      { label: "Instagram", href: "https://instagram.com/llf._.meow" },
+      { label: "Email", href: "mailto:capqq82@gmail.com" },
+      { label: "Website", href: "https://casperlin100w.github.io/" }
+    ],
   },
 ];
 
