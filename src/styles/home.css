@@ -661,6 +661,7 @@
   width: 200px;
   max-width: 100%;
   aspect-ratio: 1;
+  border-radius: 50%;
 }
 
 .team-avatar > img:first-child {
